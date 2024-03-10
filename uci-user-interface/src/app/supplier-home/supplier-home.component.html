@@ -15,7 +15,7 @@
             <div class="back">
                     <p>Product Name: {{product.product_name}}</p>
                     <p>Description: <a>{{product.description}}</a> </p>
-                    <p>Quantity: {{product.quantity}}</p>
+                    <p>Quantity (in Kg): {{product.quantity}}</p>
                     <p>Price: {{product.price}}</p>
                     <p>Transportation Type: {{product.transportation_type}}</p>
                     <button  appPermission value="EDIT_PRODUCTS" (click)="updateListing(product._id)">Update</button>

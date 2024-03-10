@@ -8,7 +8,7 @@ import { AuthService } from '../services/auth.service';
 export class PermissionDirective {
 
   @Input() value:string = "";
-  constructor(private el: ElementRef, private authService:AuthService) { }
+  constructor(private el: ElementRef, private authService: AuthService) { }
 
   ngOnInit() {   
     this.el.nativeElement.disabled = !this.authService.hasRequiredRole([this.value]);

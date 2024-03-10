@@ -9,9 +9,9 @@ import { RegistrationResponse } from '../interfaces/registration-response';
   providedIn: 'root'
 })
 export class RegistrationService {
-  private url:string = environment.baseurl;
+  private url: string = environment.baseurl;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   registerSupplier(username: string | null | undefined, email: string | null | undefined, password: string | null | undefined): Observable<HttpResponse<RegistrationResponse>>{
     

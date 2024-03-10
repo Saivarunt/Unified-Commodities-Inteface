@@ -31,7 +31,7 @@ export class ListOrUpdateProductComponent {
   constructor(public dialogRef: MatDialogRef<ListOrUpdateProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {product: ProductListing, type: string} | null, private fb: FormBuilder, private productService: ProductService, private router: Router) {}
 
-  addFile($event:any){
+  addFile($event: any){
     this.product_image = $event.target.files[0];
   }
 
@@ -46,7 +46,7 @@ export class ListOrUpdateProductComponent {
         transportation_type: this.data.product.transportation_type,
       });
 
-      this.product_id= this.data.product._id;
+      this.product_id = this.data.product._id;
       this.type = this.data.type;
     }
   }

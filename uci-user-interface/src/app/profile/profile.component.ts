@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 declare const Razorpay: any;
 
 
@@ -44,16 +45,16 @@ export class ProfileComponent {
   };
 
   formResponse: FormGroup = this.fb.group({
-    "full_name": [this.profile?.full_name || "",[Validators.required, Validators.minLength(2)]],
-    "organization": [this.profile?.organization || "",[Validators.required, Validators.minLength(2)]],
-    "email": new FormControl({value: this.profile?.email || "", disabled:true}),
-    "phone_number": [this.profile?.phone_number || "",[Validators.required, Validators.min(1), Validators.minLength(10), Validators.maxLength(10)]],
+    "full_name": [this.profile?.full_name || "", [Validators.required, Validators.minLength(2)]],
+    "organization": [this.profile?.organization || "", [Validators.required, Validators.minLength(2)]],
+    "email": new FormControl({value: this.profile?.email || "", disabled: true}),
+    "phone_number": [this.profile?.phone_number || "", [Validators.required, Validators.min(1), Validators.minLength(10), Validators.maxLength(10)]],
     "address": this.fb.group({
-        "city": [this.profile?.address?.city || "",[Validators.required, Validators.minLength(2)]],
-        "state": [this.profile?.address?.state || "",[Validators.required, Validators.minLength(2)]],
-        "country": [this.profile?.address?.country || "",[Validators.required, Validators.minLength(2)]],
-        "primary_address": [this.profile?.address?.primary_address || "",[Validators.required, Validators.minLength(2)]],
-        "postal_code": [this.profile?.address?.postal_code || "",[Validators.required, Validators.minLength(6),  Validators.maxLength(6)]]
+        "city": [this.profile?.address?.city || "", [Validators.required, Validators.minLength(2)]],
+        "state": [this.profile?.address?.state || "", [Validators.required, Validators.minLength(2)]],
+        "country": [this.profile?.address?.country || "", [Validators.required, Validators.minLength(2)]],
+        "primary_address": [this.profile?.address?.primary_address || "", [Validators.required, Validators.minLength(2)]],
+        "postal_code": [this.profile?.address?.postal_code || "", [Validators.required, Validators.minLength(6),  Validators.maxLength(6)]]
     }),
     "subscription_type": [this.subscription_type],
     "period": [this.profile?.subscription?.period || null],
@@ -132,12 +133,12 @@ export class ProfileComponent {
     this.payment_info.razorpay_payment_id = response.razorpay_payment_id;
     this.payment_info.razorpay_order_id = response.razorpay_order_id;
     this.payment_info.razorpay_signature = response.razorpay_signature;
-    this.formResponse.get('period')?.disable({onlySelf:true});
+    this.formResponse.get('period')?.disable({onlySelf: true});
   }
 
   pay(amount: number) {
     this.payment_info.amount = amount;
-    
+    Swal.close();
     this.createOrderApi = this.userService.createOrder(amount)
         .subscribe({
           next: (response) => {
@@ -150,7 +151,7 @@ export class ProfileComponent {
   }
 
   payment($event: any, type: string) {
-    
+    Swal.showLoading();
     if(type === "SUPPLIER"){
       if($event.target.value === "Monthly"){
         this.pay(300);
@@ -175,7 +176,7 @@ export class ProfileComponent {
     this.authService.isLoggedIn = false;
   }
 
-  addFile($event:any){
+  addFile($event: any){
     this.profile_image = $event.target.files[0]
   }
 

@@ -15,7 +15,7 @@ import { RoleGuard } from 'src/app/role.guard';
 
 const appRoute: Routes = [
   {
-    path:"", component: HomeComponent, canActivate:[AuthGuard],
+    path: "", component: HomeComponent, canActivate:[AuthGuard],
     children: [
       {
         path: "transportation", loadComponent:() =>
@@ -24,27 +24,27 @@ const appRoute: Routes = [
         , canActivate:[AuthGuard, RoleGuard], data: {'roles': ['CONSUMER', 'ADMIN']}
       },
       {
-        path:"supplier-home", loadComponent: () =>
+        path: "supplier-home", loadComponent: () =>
         import('src/app/supplier-home/supplier-home.component')
         .then(out => out.SupplierHomeComponent), canActivate:[AuthGuard, RoleGuard], data: {'roles': ['SUPPLIER', 'ADMIN']}
       },
       {
-        path:"consumer-home",  loadComponent: () =>
+        path: "consumer-home", loadComponent: () =>
         import('src/app/consumer-home/consumer-home.component')
         .then(out => out.ConsumerHomeComponent), canActivate:[AuthGuard, RoleGuard], data: {'roles': ['CONSUMER', 'ADMIN']}
       },
       {
-        path:"transporter-home",  loadComponent: () =>
+        path: "transporter-home", loadComponent: () =>
         import('src/app/transporter-home/transporter-home.component')
         .then(out => out.TransporterHomeComponent), canActivate:[AuthGuard, RoleGuard], data: {'roles': ['TRANSPORTER', 'ADMIN']}
       },
       {
-        path:"delivery-details",  loadComponent: () =>
+        path: "delivery-details", loadComponent: () =>
         import('src/app/delivery-details/delivery-details.component')
         .then(out => out.DeliveryDetailsComponent), canActivate:[AuthGuard, RoleGuard], data: {'roles': ['ADMIN', 'SUPPLIER', 'CONSUMER', 'TRANSPORTER']}
       },
       {
-        path:"delivery-proposals",  loadComponent: () =>
+        path: "delivery-proposals", loadComponent: () =>
         import('src/app/delivery-proposals/delivery-proposals.component')
         .then(out => out.DeliveryProposalsComponent), canActivate:[AuthGuard, RoleGuard], data: {'roles': ['TRANSPORTER', 'ADMIN']}
       },

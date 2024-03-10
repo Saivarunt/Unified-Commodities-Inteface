@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
-  supplier:boolean = sessionStorage.getItem("SUPPLIER") === "true";
-  consumer:boolean = sessionStorage.getItem("CONSUMER") === "true";
-  transporter:boolean = sessionStorage.getItem("TRANSPORTER") === "true";
+  supplier: boolean = sessionStorage.getItem("SUPPLIER") === "true";
+  consumer: boolean = sessionStorage.getItem("CONSUMER") === "true";
+  transporter: boolean = sessionStorage.getItem("TRANSPORTER") === "true";
 }

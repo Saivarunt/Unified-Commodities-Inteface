@@ -38,22 +38,22 @@ export class ProductService {
   } 
 
   updateSupplierStatus(_id: string): Observable<HttpResponse<Boolean>>{
-    return  <Observable<HttpResponse<Boolean>>> this.http.post(`${this.url}products/supplier-status?_id=${_id}`, {}, {observe: 'response'});
+    return <Observable<HttpResponse<Boolean>>> this.http.post(`${this.url}products/supplier-status?_id=${_id}`, {}, {observe: 'response'});
   }
 
   updateConsumerStatus(_id: string): Observable<HttpResponse<Boolean>>{
-    return  <Observable<HttpResponse<Boolean>>> this.http.post(`${this.url}products/consumer-status?_id=${_id}`, {}, {observe: 'response'});
+    return <Observable<HttpResponse<Boolean>>> this.http.post(`${this.url}products/consumer-status?_id=${_id}`, {}, {observe: 'response'});
   }
 
   searchValue(value: string, page: number): Observable<Pageable> {
     return <Observable<Pageable>> this.http.get(`${this.url}products/search?productname=${value}&page=${page}`);
   } 
 
-  rateTransporter(rating: number,_id: string): Observable<HttpResponse<Boolean>>{
+  rateTransporter(rating: number, _id: string): Observable<HttpResponse<Boolean>>{
     return <Observable<HttpResponse<Boolean>>> this.http.post(`${this.url}products/rate-transporter?rating=${rating}&_id=${_id}`, {}, {observe: 'response'});
   }
 
-  rateProduct(rating: number,_id: string): Observable<HttpResponse<Boolean>>{
+  rateProduct(rating: number, _id: string): Observable<HttpResponse<Boolean>>{
     return <Observable<HttpResponse<Boolean>>> this.http.post(`${this.url}products/rate-product?rating=${rating}&_id=${_id}`, {}, {observe: 'response'});
   }
 }

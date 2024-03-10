@@ -13,9 +13,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent {
-  registrationType:string = "";
-  otpValid:boolean = false;
-  enableOtp:boolean = false;
+  registrationType: string = "";
+  otpValid: boolean = false;
+  enableOtp: boolean = false;
   getOtpApi: Subscription = new Subscription();
   validateOtpApi: Subscription = new Subscription();
   registerSupplierApi: Subscription = new Subscription();
@@ -25,14 +25,14 @@ export class RegistrationComponent {
   constructor (private authService: AuthService, private router:Router, private registrationService: RegistrationService, private fb: FormBuilder) {}
 
   formResponse = this.fb.group({
-    username:["",[Validators.required, Validators.minLength(1)]],
-    mail:["",[Validators.required, Validators.email]],
-    otp:["",[Validators.required, Validators.min(100000), Validators.max(999999)]],
-    password:["",[Validators.required, Validators.minLength(1)]],
-    confirmpassword:["",[Validators.required, Validators.minLength(1)]]
+    username: ["", [Validators.required, Validators.minLength(1)]],
+    mail: ["", [Validators.required, Validators.email]],
+    otp: ["", [Validators.required, Validators.min(100000), Validators.max(999999)]],
+    password: ["", [Validators.required, Validators.minLength(1)]],
+    confirmpassword: ["", [Validators.required, Validators.minLength(1)]]
   })
 
-  registrationTypeSet (type:string) {
+  registrationTypeSet (type: string) {
     this.registrationType = type;
   }
 
@@ -47,11 +47,11 @@ export class RegistrationComponent {
       this.enableOtp = true;
       this.getOtpApi = this.authService.getOtp(this.formResponse.get("mail")?.value)
       .subscribe({
-        next:(response) =>{
+        next: (response) =>{
           Swal.close();         
           alert("Otp generated; Kindly check your email.");
         },
-        error:(err) => {  
+        error: (err) => {  
           console.log(err);
           Swal.close();
           alert(err.error);
@@ -69,7 +69,7 @@ export class RegistrationComponent {
       this.enableOtp = true;
       this.validateOtpApi = this.authService.validateOtp(this.formResponse.get("mail")?.value,this.formResponse.get("otp")?.value)
       .subscribe({
-        next:(response) =>{
+        next: (response) =>{
           this.otpValid = response.body!.valueOf();
           if(response.body!.valueOf() === false){
             alert("Invalid OTP");
@@ -78,7 +78,7 @@ export class RegistrationComponent {
             this.formResponse.get('mail')?.disable({onlySelf:true});
           }
         },
-        error:(err) => {
+        error: (err) => {
           alert(err);
         }
       })
@@ -95,12 +95,12 @@ export class RegistrationComponent {
         .subscribe({
           next: (response) => {
             if(response.status !== 200) {
-              throw new HttpErrorResponse({headers:response.headers,status:response.status,url:response.url?.toString()});
+              throw new HttpErrorResponse({headers: response.headers, status: response.status, url: response.url?.toString()});
             }
   
           },
   
-          error:(error) => {
+          error: (error) => {
             alert("Duplicate Credentials or Invalid input");
           },
   
@@ -119,12 +119,12 @@ export class RegistrationComponent {
   
           next: (response) => {
             if(response.status !== 200) {
-              throw new HttpErrorResponse({headers:response.headers,status:response.status,url:response.url?.toString()});
+              throw new HttpErrorResponse({headers: response.headers, status: response.status, url: response.url?.toString()});
             }
   
           },
   
-          error:(error) => {
+          error: (error) => {
             alert("Duplicate Credentials or Invalid input");
           },
   
@@ -143,12 +143,12 @@ export class RegistrationComponent {
   
           next: (response) => {
             if(response.status !== 200) {
-              throw new HttpErrorResponse({headers:response.headers,status:response.status,url:response.url?.toString()});
+              throw new HttpErrorResponse({headers: response.headers, status: response.status, url: response.url?.toString()});
             }
   
           },
   
-          error:(error) => {
+          error: (error) => {
             alert("Duplicate Credentials or Invalid input");
           },
   
