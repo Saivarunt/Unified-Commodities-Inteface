@@ -1,0 +1,138 @@
+<nav>
+    <div>    
+        <img src="assets/uci.png">
+        <p class="uci-header">UCI</p>
+    </div>
+    <div>
+        <a routerLink="/home" appAdminAccess> Home </a>
+
+        <a routerLink="/home/supplier-home" appSupplierAccess> Home </a>
+    
+        <a routerLink="/home/consumer-home" appConsumerAccess> Home </a>
+        
+        <a routerLink="/home/transporter-home" appTransporterAccess> Home </a>
+    
+        <a routerLink="/login" (click)="logoutUser()"> Logout </a>
+    </div>
+    
+</nav>
+
+<router-outlet></router-outlet>
+
+<div class="profile-container">
+    <img [src]="profile?.profile_image == ''? 'assets/profile.png' :profile?.profile_image" alt="">
+    <label for="profile-image">Profile Image:</label>
+    <input type="file" id="profile-image" name="profile_image" (change)="addFile($event)" required>
+
+    <div class="form-container">
+        <form [formGroup]="formResponse" (ngSubmit)="updateProfile()"> 
+            <div>
+                
+                <label for="username">Username:</label> <br>
+                <mat-form-field>
+                    <input matInput [value]="username" type="text" id="username" name="username" disabled> 
+                </mat-form-field>  
+                <br>
+                <label for="fullname">Full name:</label> <br>
+                <mat-form-field>
+                <input matInput type="text" id="fullname" name="fullname" formControlName= "full_name" required> 
+                </mat-form-field>
+                <br>
+                <label for="organization">Organization:</label> <br>
+                <mat-form-field>
+                <input matInput type="text" id="organization" name="organization" formControlName= "organization" required> 
+                </mat-form-field>
+                <br>
+                <label for="email">Email ID:</label> <br>
+                <mat-form-field>
+                <input matInput type="text" id="email" name="email" formControlName= "email"> 
+                </mat-form-field>
+                <br>
+                <label for="phonenumber">Phone Number:</label> <br>
+                <mat-form-field>
+                <input matInput type="number" id="phonenumber" name="phonenumber" formControlName= "phone_number" required>
+                </mat-form-field>
+                <br>
+            </div>
+    
+            
+            <!-- address -->
+            <div formGroupName="address">
+                <label> Address </label>
+                <label for="city">City:</label> <br>
+    
+                <mat-form-field>
+                    <input matInput type="text" id="city" name="city" formControlName= "city" required> 
+                </mat-form-field>
+                <br>
+                <label for="state">State:</label> <br>
+                <mat-form-field>
+                <input matInput type="text" id="state" name="state" formControlName= "state" required>
+                </mat-form-field>
+                <br>
+                <label for="country">Country:</label> <br>
+                <mat-form-field>
+                    <input matInput type="text" id="country" name="country" formControlName= "country" required> 
+                </mat-form-field>
+                <br>
+                <label for="primary-address">Primary Address:</label> <br>
+                <mat-form-field>
+                    <input matInput type="text" id="primary-address" name="primaryaddress" formControlName= "primary_address" required>
+                </mat-form-field>
+                <br>
+                <label for="postalcode">Postal Code:</label> <br>
+                <mat-form-field>
+                    <input matInput type="text" id="postalcode" name="postalcode" formControlName= "postal_code" required> 
+                </mat-form-field>
+                <br>
+
+
+                <button mat-raised-button type="submit">Update</button>
+
+            </div>
+
+    
+    
+            <div class="stats-container" *ngIf="!consumer">
+
+                <label for="delivery-count">Delivery Count:</label> <br>
+
+                <mat-form-field>
+                <input matInput type="text" id="delivery-count" name="delivery_count" [value]="profile?.delivery_count" disabled>
+                </mat-form-field>
+                <br>
+
+                <label for="rating">Rating:</label> <br>
+                <mat-form-field>
+                <input matInput type="text" id="rating" name="rating" [value]="profile?.rating" disabled> 
+                </mat-form-field>
+                <br>
+
+                <!-- subscription -->
+                <div class="subscription-container" *ngIf="supplier && (profile?.subscription === null || profile?.subscription === undefined)">
+                    <label>{{subscription_type}}</label> <br>
+        
+                    <label for="period">Period:</label> <br>
+                    <select name="period" id="period" formControlName = "period" (change)="payment($event, 'SUPPLIER')">
+                        <option default>Select a period</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Yearly">Yearly</option>
+                    </select> 
+                </div>
+        
+                <div class="subscription-container" *ngIf="transporter && (profile?.subscription === null || profile?.subscription === undefined)">
+                    <label>{{subscription_type}}</label> <br>
+        
+                    <label for="period">Period:</label>
+                    <select name="period" id="period" formControlName = "period" (change)="payment($event, 'TRANSPORTER')">
+                        <option default>Select a period</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Yearly">Yearly</option>
+                    </select> 
+                </div>
+            </div>
+
+    
+        </form> 
+    </div>
+</div>

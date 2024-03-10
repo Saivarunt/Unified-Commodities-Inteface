@@ -1,0 +1,39 @@
+<div class="delivery-details-container">
+    <table class="life-cycle">
+        <div *ngIf="lifecycles !== null">
+        <tr>
+            <th>Product Name</th>
+            <th>Supplier</th>
+            <th>Consumer</th>
+            <th>Transporter</th>
+            <th>Quantity</th>
+            <th>Supplier Status</th>
+            <th>Consumer Status</th>
+            <th appSupplierAccess>Delivery Status Update</th>
+            <th appConsumerAccess>Delivery Status Update</th>
+        </tr>
+            <tr *ngFor="let lifecycle of lifecycles">
+                <td>{{lifecycle.product}}</td>
+                <td>{{lifecycle.supplier}}</td>
+                <td>{{lifecycle.consumer}}</td>
+                <td>{{lifecycle.transporter}}</td>
+                <td>{{lifecycle.quantity}}</td>
+                <td>{{lifecycle.supplier_status}}</td>
+                <td>{{lifecycle.consumer_status}}</td>
+                <td *ngIf="lifecycle.supplier_status === ''" appSupplierAccess><button mat-raised-button (click)="updateStatus('Supplier', lifecycle._id)">Update Status</button></td>
+                <td *ngIf="lifecycle.consumer_status === '' && lifecycle.supplier_status !== ''" appConsumerAccess><button  mat-raised-button (click)="updateStatus('Consumer',lifecycle._id)">Update Status</button></td>
+            </tr>
+        </div>
+    </table>
+</div>
+
+<div *ngIf="lifecycles === null">
+    No content to display
+</div>
+
+<mat-paginator [length]="totalElements"
+              [pageSize]="pageSize"
+              (page)="handlePageEvent($event)"
+              [pageSizeOptions]="[20]"
+              aria-label="Select page">
+</mat-paginator>

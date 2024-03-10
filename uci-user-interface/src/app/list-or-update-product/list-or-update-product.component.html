@@ -1,0 +1,89 @@
+<div class="list-product" *ngIf="type === 'add'">
+    <div class="image-upload">
+        <label for="product-image">Product Image:</label> <br>
+        <input type="file" id="product-image" name="product_image" (change)="addFile($event)" required>
+        <br>
+    </div>
+
+    <div class="form-container">
+        <form [formGroup]="formResponse" (ngSubmit)="listingProduct()">
+            <label for="product-name">Product Name: </label> <br>
+            <input type="text" name="product-name" id="product-name" formControlName = "product_name" required>
+            <br>
+    
+            <label for="description">Description: </label> <br>
+            <input type="text" name="description" id="description" formControlName = "description" required>
+            <br>
+    
+            <label for="price">Price: </label> <br>
+            <input type="number" name="price" id="price" formControlName = "price" required>
+            <br>
+    
+            <label for="quantity">Quantity: </label> <br>
+            <input type="number" name="quantity" id="quantity" formControlName = "quantity" required>
+            <br>
+    
+            <label>Transportation Type</label> <br>
+            <select name="transportation-type" id="transportation-type" formControlName = "transportation_type">
+                <option default>Select Transportation Type</option>
+                <option value="Self">Self</option>
+                <option value="Support">Support</option>
+            </select> 
+            <br>
+    
+            <div class="button-div">
+                <button mat-raised-button type="submit">Add</button>
+                <button mat-raised-button mat-dialog-close>Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="update-product" *ngIf="type === 'update'">
+    <div class="image-upload">
+        <label for="product-image">Product Image:</label> <br>
+        <input type="file" id="product-image" name="product_image" (change)="addFile($event)" required>
+        <br>
+    </div>
+
+    <div class="form-container">
+        <form [formGroup]="formResponse" (ngSubmit)="updateProduct()">
+            <label for="product-name">Product Name: </label> <br>
+            <input type="text" name="product-name" id="product-name" formControlName = "product_name" [value]="formResponse.value.product_name" required>
+            <br>
+    
+            <label for="description">Description: </label> <br>
+            <input type="text" name="description" id="description" formControlName = "description" [value]="formResponse.value.description" required>
+            <br>
+    
+            <label for="price">Price: </label> <br>
+            <input type="number" name="price" id="price" formControlName = "price" [value]="formResponse.value.price" required>
+            <br>
+    
+            <label for="quantity">Quantity: </label> <br>
+            <input type="number" name="quantity" id="quantity" formControlName = "quantity" [value]="formResponse.value.quantity" required>
+            <br>
+    
+            <label>Transportation Type</label> <br>
+            <select name="transportation-type" id="transportation-type" formControlName = "transportation_type" [value]="formResponse.value.transportation_type">
+                <option default>Select Transportation Type</option>
+                <option value="Self">Self</option>
+                <option value="Support">Support</option>
+            </select> 
+            <br>
+    
+            <div class="button-div">
+                <button mat-raised-button type="submit">Update</button>
+                <button mat-raised-button mat-dialog-close>Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div *ngIf="type === 'delete'" class="delete-container">
+    <p>Are you sure you want to delete this product?</p> <br>
+    <button mat-raised-button (click)="deleteProduct()">Yes</button>
+    <button mat-raised-button mat-dialog-close>No</button>
+
+</div>

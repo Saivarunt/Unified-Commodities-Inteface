@@ -1,0 +1,47 @@
+.whole-container, .button-div, .type-button, .otp-button {
+    display: flex;
+    justify-content: center;
+}
+
+.register-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 40%;
+    justify-content: center;
+    margin: 100px;
+    padding: 50px;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+input {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.type-button button, .otp-button button{
+    margin: 10px;
+}
+
+.form-container {
+    display: grid;
+    justify-content: center;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+.register-header {
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
+  }
+
+.uci-header {
+    display: flex;
+    font-size: 25px;
+    justify-content: center;
+  }

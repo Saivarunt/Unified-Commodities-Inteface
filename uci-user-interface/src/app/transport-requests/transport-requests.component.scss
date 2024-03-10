@@ -1,0 +1,39 @@
+.transport-requests-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+}
+.transport-requests {
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+  }
+  
+  .transport-requests th, .transport-requests td {
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .transport-requests th {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  .transport-requests tr:nth-child(even) {
+    background: #fcefef;
+  }
+  
+  .transport-requests tr:nth-child(odd) {
+    background: #bfd5ff;
+  }
+  
+  .transport-requests tr:hover {
+    background-color: #ffffff;
+  }
+
+  
+  

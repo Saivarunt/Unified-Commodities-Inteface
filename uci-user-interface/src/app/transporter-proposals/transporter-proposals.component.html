@@ -1,0 +1,40 @@
+
+<div class="transporter-proposal-container">
+    <table *ngIf="proposals.length !== 0" class="proposal">
+        <div>
+        <tr>
+            <th>Product Name</th>
+            <th>Owner</th>
+            <th>Organization</th>
+            <th>Description</th>
+            <th>Buyer</th>
+            <th>Buyer Organization</th>
+            <th>Quantity</th>
+            <th>Transporter</th>
+            <th>Transporter Organization</th>
+            <th>Status</th>
+
+        </tr>
+        <tr *ngFor="let proposal of proposals">
+            <td>{{proposal.request.product.product_name}}</td>
+            <td>{{proposal.request.product.owner.profile.full_name}}</td>
+            <td>{{proposal.request.product.owner.profile.organization}}</td>
+            <td>{{proposal.request.product.description}}</td>
+            <td>{{proposal.request.user.profile.full_name}}</td>
+            <td>{{proposal.request.user.profile.organization}}</td>
+            <td>{{proposal.request.quantity}}</td>
+            <td>{{proposal.transporter.profile.full_name}}</td>
+            <td>{{proposal.transporter.profile.organization}}</td>
+            <td>{{proposal.status}}</td>
+        </tr>
+    </div>
+    </table>
+</div>
+
+
+<mat-paginator [length]="totalElements"
+              [pageSize]="pageSize"
+              (page)="handlePageEvent($event)"
+              [pageSizeOptions]="[20]"
+              aria-label="Select page">
+</mat-paginator>

@@ -1,0 +1,39 @@
+.whole-container, .button-div {
+    display: flex;
+    justify-content: center;
+}
+
+.login-container {
+    display: flex;
+    width: 20%;
+    justify-content: center;
+    margin: 200px;
+    padding: 50px;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+input {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.value-div{
+    display: grid;
+    align-items: center;
+}
+
+button{
+    cursor: pointer;
+}
+.login-header {
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
+}
+
+.uci-header {
+    display: flex;
+    font-size: 25px;
+    justify-content: center;
+}

@@ -1,0 +1,39 @@
+.purchase-product {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    margin: 10px;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+}
+.details-container {
+    margin: 20px;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.image-container img {
+    height: 200px;
+    width: 500px;
+    margin: 20px;
+    margin-left: 60px;
+}
+
+button {
+    cursor: pointer;
+}

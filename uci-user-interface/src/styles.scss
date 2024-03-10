@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+*{
+    font-family: 'Roboto Slab', serif;
+}
+html, body { 
+    height: 100%; 
+}
+body { 
+    margin: 0;
+    background: linear-gradient(135deg,#ffd4d4,#5c95ff);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}

@@ -1,0 +1,29 @@
+<div class="product-details-container">
+    <table class="products">
+        <div *ngIf="products.length !== 0">
+        <tr>
+            <th>Product Name</th>
+            <th>Owner</th>
+            <th>Organization</th>
+            <th>Description</th>
+            <th>Transportation Type</th>
+            <th>Quantity</th>
+        </tr>
+            <tr *ngFor="let product of products">
+                <td>{{product.product_name}}</td>
+                <td>{{product.owner.full_name}}</td>
+                <td>{{product.owner.organization}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.transportation_type}}</td>
+                <td>{{product.quantity}}</td>
+            </tr>
+        </div>
+    </table>
+</div>
+
+<mat-paginator [length]="totalElements"
+              [pageSize]="pageSize"
+              (page)="handlePageEvent($event)"
+              [pageSizeOptions]="[10]"
+              aria-label="Select page">
+</mat-paginator>

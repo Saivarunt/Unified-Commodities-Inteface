@@ -1,0 +1,37 @@
+<nav>
+    <div>    
+        <img src="assets/uci.png">
+        <p class="uci-header">UCI</p>
+    </div>
+    <div>
+        <a routerLink="/home" appAdminAccess> Home </a>
+
+        <a routerLink="supplier-home" appSupplierAccess> My Products </a>
+    
+        <a routerLink="consumer-home" appConsumerAccess> Products </a>
+        
+        <a routerLink="transporter-home" appTransporterAccess> Requests </a>
+        
+        <a routerLink="transportation" appConsumerAccess> Transportation </a>
+        
+        <a routerLink="delivery-details" *ngIf="supplier || consumer || transporter"> Delivery Details </a>
+        
+        <a routerLink="delivery-proposals" appTransporterAccess>Delivery Proposals</a>
+        
+        <a routerLink="/profile"> Profile </a>
+    </div>
+
+    <div></div>
+</nav>
+
+<div *ngIf="!supplier && !consumer && !transporter">
+    <mat-tab-group>
+        <mat-tab label="Users"> <app-users></app-users></mat-tab>
+        <mat-tab label="Products"> <app-products></app-products></mat-tab>
+        <mat-tab label="Purchase Info"> <app-purchase-info></app-purchase-info></mat-tab>
+        <mat-tab label="Transport Requests"> <app-transport-requests></app-transport-requests></mat-tab>
+        <mat-tab label="Transporter Proposals"> <app-transporter-proposals></app-transporter-proposals></mat-tab>
+    </mat-tab-group>
+</div>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,29 @@
+<div class="transport-requests-container">
+    <table class="transport-requests">
+        <div *ngIf="listTransportRequests.length !== 0">
+        <tr>
+            <th>Product Name</th>
+            <th>Owner</th>
+            <th>Organization</th>
+            <th>Description</th>
+            <th>Buyer</th>
+            <th>Quantity</th>
+        </tr>
+            <tr *ngFor="let transportRequest of listTransportRequests">
+                <td>{{transportRequest.product.product_name}}</td>
+                <td>{{transportRequest.product.owner.full_name}}</td>
+                <td>{{transportRequest.product.owner.organization}}</td>
+                <td>{{transportRequest.product.description}}</td>
+                <td>{{transportRequest.user.full_name}}</td>
+                <td>{{transportRequest.quantity}}</td>
+            </tr>
+        </div>
+    </table>
+</div>
+
+<mat-paginator [length]="totalElements"
+              [pageSize]="pageSize"
+              (page)="handlePageEvent($event)"
+              [pageSizeOptions]="[10]"
+              aria-label="Select page">
+</mat-paginator>

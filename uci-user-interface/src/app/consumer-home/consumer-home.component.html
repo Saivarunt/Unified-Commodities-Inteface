@@ -1,0 +1,36 @@
+<div class="search-container">
+    <label for="search">Search : </label>
+    <input type="text" name="search" id="search" [(ngModel)] ="search"  (input)="searchProduct()">
+</div>
+
+<div class="container">
+    <div class="card" *ngFor="let product of products">
+        <div class="card-inner">
+            <div class="front">
+                <img [src]="product.product_image">
+                <p class="text-content">Product: {{product.product_name}}</p>
+
+            </div>
+            <div class="back">
+                    <p>Product Name: {{product.product_name}}</p>
+                    <p>Owner: {{product.owner.full_name}}</p>
+                    <p>Organization {{product.owner.organization}}</p>
+                    <p>Description: {{product.description}}</p>
+                    <p>Quantity: {{product.quantity}}</p>
+                    <p>Price: {{product.price}}</p>
+                    <p>Transportation Type: {{product.transportation_type}}</p>
+
+                    <button mat-raised-button (click)="buyProduct(product._id)">Buy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<mat-paginator [length]="totalElements"
+              [pageSize]="pageSize"
+              (page)="handlePageEvent($event)"
+              [pageSizeOptions]="[10]"
+              aria-label="Select page">
+</mat-paginator>

@@ -1,0 +1,51 @@
+<div class="whole-container">
+    <div class="register-container">
+        <p class="uci-header">UCI</p> <br>
+
+        <p class="register-header">Registration</p> <br>
+        
+        <div class="type-button">
+            <button mat-raised-button (click)= "registrationTypeSet('Supplier')" mat-raised-button>Supplier Registration </button>
+            <button mat-raised-button (click)= "registrationTypeSet('Consumer')" mat-raised-button>Consumer Registration</button>
+            <button mat-raised-button (click)= "registrationTypeSet('Transporter')" mat-raised-button>Transporter Registration</button>
+        </div>
+        <br>
+    
+        
+        <form [formGroup]="formResponse" (ngSubmit)="regitserResponseFunction()">
+            <div class="form-container">
+                <p>{{registrationType}} Registration</p>
+                <p>* <span><a routerLink="/login">Login</a> </span> if you already have an account.</p>
+        
+                <label>Enter your Username</label><br>
+                <input type="text" id="name" name="username" formControlName="username" required> <br>
+        
+                <label>Enter your Email Address</label> <br>
+                <input type="text" id="mail" name="mail" formControlName="mail" required> <br>
+                
+            </div>
+                <div *ngIf="!otpValid" class="form-container">
+                    
+                    <div *ngIf="enableOtp">
+                        <label>Enter your Otp</label> <br>
+                        <input type="number" id="otp" name="otp" formControlName="otp" required> <br>
+                        
+                    </div>
+                </div>
+                
+                <div *ngIf="otpValid" class="form-container">
+                    <label>Enter your password</label> <br>
+                    <input type="text" id="pass" name="password" formControlName="password"  required > <br>
+                    <label>Confirm password</label> <br>
+                    <input type="text" id="confirmpass" name="confirmpassword" formControlName="confirmpassword"required> <br>
+                    <button mat-raised-button type="submit">Register</button>
+                </div>
+                
+            </form>
+
+        <div class="otp-button">
+            <button mat-raised-button *ngIf="!enableOtp && !otpValid" (click)="generateOtp()">Generate Otp</button>
+            <button mat-raised-button *ngIf="enableOtp && !otpValid" (click)="verifyOtp()">Verify Otp</button>
+        </div>
+    </div>
+</div>

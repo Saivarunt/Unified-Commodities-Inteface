@@ -1,0 +1,33 @@
+<div class="purchase-info-container">
+    <table class="purchases">
+        <div *ngIf="purchases.length !== 0">
+        <tr>
+            <th>Product Name</th>
+            <th>Owner</th>
+            <th>Organization</th>
+            <th>Description</th>
+            <th>Buyer</th>
+            <th>Price</th>
+            <th>Transportation Type</th>
+            <th>Quantity</th>
+        </tr>
+            <tr *ngFor="let purchase of purchases">
+                <td>{{purchase.product.product_name}}</td>
+                <td>{{purchase.product.owner.profile.full_name}}</td>
+                <td>{{purchase.product.owner.profile.organization}}</td>
+                <td>{{purchase.product.description}}</td>
+                <td>{{purchase.buyer.profile.full_name}}</td>
+                <td>{{purchase.price}}</td>
+                <td>{{purchase.transportation_type}}</td>
+                <td>{{purchase.quantity}}</td>
+            </tr>
+        </div>
+    </table>
+</div>
+
+<mat-paginator [length]="totalElements"
+              [pageSize]="pageSize"
+              (page)="handlePageEvent($event)"
+              [pageSizeOptions]="[20]"
+              aria-label="Select page">
+</mat-paginator>
