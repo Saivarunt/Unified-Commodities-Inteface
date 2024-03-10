@@ -83,7 +83,7 @@ Unified commodities interface is a (B2B) website aimed to facilitate large scale
 ##	Delivery Status update for requested product
     - Contains list of product requests from consumer 
     - Update status to delivered to transporter button (Email notification)
-    - Rate Transporter with description (optional)
+    - Rate Transporter (optional)
 
 
 ## Consumer Pages:
@@ -109,7 +109,7 @@ Unified commodities interface is a (B2B) website aimed to facilitate large scale
 
 ##	Delivery Status update for requested product
     - Update status to delivery received button -> will store full transaction in admin finished transactions page (Email notification success/failure)
-    - Rate Product and Transporter with description (optional)
+    - Rate Product and Transporter (optional)
 
 ## Transport Personnel:
 
