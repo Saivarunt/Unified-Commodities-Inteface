@@ -13,6 +13,8 @@ import {MatInputModule} from '@angular/material/input';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AlertService } from '../services/alert.service';
+import { RazorpayResponse } from '../interfaces/razorpay-response';
+import { TransactionDetailsResponse } from '../interfaces/transaction-details-response';
 declare const Razorpay: any;
 
 
@@ -94,7 +96,7 @@ export class ProfileComponent {
   }
 
 
-  openTransactionModel(response: any) {
+  openTransactionModel(response: TransactionDetailsResponse) {
     const options = {
       order_id: response.orderId,
       key: response.key,
@@ -108,7 +110,7 @@ export class ProfileComponent {
         email: this.profile?.email,
         contact: this.profile?.phone_number || ""
       },
-      handler: (response: any) => {
+      handler: (response: RazorpayResponse) => {
         if(response != null && response.razorpay_payment_id != null)
           this.processResponse(response);
         else
@@ -132,7 +134,7 @@ export class ProfileComponent {
  
   }
 
-  processResponse(response: any) {
+  processResponse(response: RazorpayResponse) {
     this.success = true;
     this.payment_info.razorpay_payment_id = response.razorpay_payment_id;
     this.payment_info.razorpay_order_id = response.razorpay_order_id;
@@ -155,22 +157,23 @@ export class ProfileComponent {
         })
   }
 
-  payment($event: any, type: string) {
+  payment($event: Event, type: string) {
     Swal.showLoading();
+    const selectElement = $event.target as HTMLSelectElement
     if(type === "SUPPLIER"){
-      if($event.target.value === "Monthly"){
+      if(selectElement.value === "Monthly"){
         this.pay(300);
       }
-      else if($event.target.value === "Yearly"){
+      else if(selectElement.value === "Yearly"){
         this.pay(3000);
       }
     }
 
     else if(type === "TRANSPORTER"){
-      if($event.target.value === "Monthly"){
+      if(selectElement.value === "Monthly"){
         this.pay(160);
       }
-      else if($event.target.value === "Yearly"){
+      else if(selectElement.value === "Yearly"){
         this.pay(1800);
       }
     }
@@ -182,8 +185,11 @@ export class ProfileComponent {
     this.al.alertPrompt("Logged out", "Successfully logged out", "success");
   }
 
-  addFile($event: any){
-    this.profile_image = $event.target.files[0]
+  addFile($event: Event) {
+    const file = $event.target as HTMLInputElement;
+    if(file.files){
+      this.profile_image = file.files[0];
+    }
   }
 
   updatePermissions() {

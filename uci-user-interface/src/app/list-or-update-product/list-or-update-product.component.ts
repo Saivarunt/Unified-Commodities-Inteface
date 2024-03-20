@@ -34,8 +34,11 @@ export class ListOrUpdateProductComponent {
     @Inject(MAT_DIALOG_DATA) public data: {product: ProductListing, type: string} | null, private fb: FormBuilder, 
     private productService: ProductService, private router: Router, private al: AlertService) {}
 
-  addFile($event: any){
-    this.product_image = $event.target.files[0];
+  addFile($event: Event) {
+    const file = $event.target as HTMLInputElement;
+    if(file.files){
+      this.product_image = file.files[0];
+    }
   }
 
   ngOnInit() {

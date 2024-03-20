@@ -61,7 +61,7 @@ export class DeliveryStatusComponent {
       });
     }
     else if(this.data.status === 'Consumer') {
-      this. updateConsumerStatusApi = this.productService.updateConsumerStatus(this.data.lifecycle._id) 
+      this.updateConsumerStatusApi = this.productService.updateConsumerStatus(this.data.lifecycle._id) 
       .subscribe({
         next: (response) => {
           Swal.close();

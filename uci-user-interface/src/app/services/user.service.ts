@@ -6,6 +6,7 @@ import { ProfileResponse } from '../interfaces/profile-response';
 import { ProfileUpdate } from '../interfaces/profile-update';
 import { Pageable } from '../interfaces/pageable';
 import { UserInfo } from '../interfaces/user-info';
+import { TransactionDetailsResponse } from '../interfaces/transaction-details-response';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class UserService {
   public url:string = environment.baseurl;
   constructor(private http: HttpClient) { }
 
-  createOrder(amount: number) {
-    return this.http.get(`${environment.baseurl}payment/create-transaction/${amount}`);
+  createOrder(amount: number): Observable<TransactionDetailsResponse> {
+    return <Observable<TransactionDetailsResponse>> this.http.get(`${environment.baseurl}payment/create-transaction/${amount}`);
   }
 
   getProfileInfo(): Observable<ProfileResponse>{

@@ -12,10 +12,10 @@ export class AuthService {
   isLoggedIn: boolean = sessionStorage.getItem("logged_in") === "true";
 
   
-  public permissionsShared = new BehaviorSubject<any>([]);
+  public permissionsShared = new BehaviorSubject<string[]>([]);
   observeValues = this.permissionsShared.asObservable();
 
-  changeValues(data: any) { 
+  changeValues(data: string[]) { 
     this.permissionsShared.next(data);
   }
 
