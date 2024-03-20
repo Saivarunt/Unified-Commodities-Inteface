@@ -9,6 +9,7 @@
             <th>Quantity</th>
             <th>Supplier Status</th>
             <th>Consumer Status</th>
+            <th>Created At</th>
             <th appSupplierAccess>Delivery Status Update</th>
             <th appConsumerAccess>Delivery Status Update</th>
         </tr>
@@ -20,6 +21,7 @@
                 <td>{{lifecycle.quantity}}</td>
                 <td>{{lifecycle.supplier_status}}</td>
                 <td>{{lifecycle.consumer_status}}</td>
+                <td>{{lifecycle.created_at}}</td>
                 <td *ngIf="lifecycle.supplier_status === ''" appSupplierAccess><button mat-raised-button (click)="updateStatus('Supplier', lifecycle._id)">Update Status</button></td>
                 <td *ngIf="lifecycle.consumer_status === '' && lifecycle.supplier_status !== ''" appConsumerAccess><button  mat-raised-button (click)="updateStatus('Consumer',lifecycle._id)">Update Status</button></td>
             </tr>

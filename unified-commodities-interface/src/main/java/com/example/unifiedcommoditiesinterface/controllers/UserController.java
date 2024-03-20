@@ -56,7 +56,7 @@ public class UserController {
     }
     
     @GetMapping("/{username}")
-    public ResponseEntity<User> fetchUsername(@PathVariable String username) {
+    public ResponseEntity<User> fetchByUsername(@PathVariable String username) {
         return new ResponseEntity<User>(userService.getUserByUsername(username), HttpStatus.OK);
     }
     
@@ -67,4 +67,9 @@ public class UserController {
         return new ResponseEntity<Page<User>>(userService.findAllUsers(page), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/search")
+    public ResponseEntity<Page<User>> searchByUsername(@RequestParam String username, @RequestParam Integer page) {
+        return new ResponseEntity<Page<User>>(userService.fetchByUsername(username, page), HttpStatus.OK);
+    }
 }

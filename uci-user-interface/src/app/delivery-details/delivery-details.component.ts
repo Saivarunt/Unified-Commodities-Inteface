@@ -8,6 +8,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DeliveryStatusComponent } from '../delivery-status/delivery-status.component';
 import { MatButtonModule } from '@angular/material/button';
 import { Subscription } from 'rxjs';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-delivery-details',
@@ -25,7 +26,7 @@ export class DeliveryDetailsComponent {
   status: string = "";
   lifecycle_id: string = "";
 
-  constructor(private productService: ProductService,  public dialog: MatDialog) {}
+  constructor(private productService: ProductService,  public dialog: MatDialog, private al: AlertService) {}
 
   ngOnInit() {
     this.deliveryInfo(this.pageIndex);
@@ -35,7 +36,7 @@ export class DeliveryDetailsComponent {
     this.deliveryInfoApi = this.productService.viewLifecycle(page)
     .subscribe({
       next: (response) => {
-        if(response !== null){
+        if(response !== null) {
           this.lifecycles = response.content;
           this.pageSize = response.size;
           this.totalElements = response.totalElements;
@@ -45,7 +46,7 @@ export class DeliveryDetailsComponent {
         }
       },
       error: (err) => {
-        alert(err.error);
+        this.al.alertPrompt("Error", err.error, "error");;
       }
     })
   }
@@ -57,8 +58,8 @@ export class DeliveryDetailsComponent {
 
   openStatusUpdateDialog(enterAnimationDuration: string, exitAnimationDuration: string) {
     this.dialog.open(DeliveryStatusComponent, {
-      width: '50vh',
-      height: '50vh',
+      width: '40vh',
+      height: '40vh',
       enterAnimationDuration,
       exitAnimationDuration,
       data: {status: this.status, lifecycle: this.lifecycles.filter((val) => val._id === this.lifecycle_id)[0]}

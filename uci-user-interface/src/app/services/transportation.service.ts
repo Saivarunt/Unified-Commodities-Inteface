@@ -17,6 +17,10 @@ export class TransportationService {
     return <Observable<Pageable>> this.http.get(`${this.url}transport/requests?page=${page}`);
   }
 
+  viewLatestRequests(page: number): Observable<Pageable> {
+    return <Observable<Pageable>> this.http.get(`${this.url}transport/latest-requests?page=${page}`);
+  }
+
   viewRequestById(request_id: string): Observable<ListTransportationalRequest> {
     return <Observable<ListTransportationalRequest>> this.http.get(`${this.url}transport/requests-by-id?_id=${request_id}`);
   }
@@ -48,5 +52,12 @@ export class TransportationService {
   viewAllProposals(page: number): Observable<Pageable> {
     return <Observable<Pageable>> this.http.get(`${this.url}transport/proposals?page=${page}`);
   }
- 
+
+  searchTransporter(search: string, page: number): Observable<Pageable> {
+    return <Observable<Pageable>> this.http.get(`${this.url}transport/proposals-search?transporterName=${search}&page=${page}`);
+  }
+
+  searchRequester(search: string, page: number): Observable<Pageable> {
+    return <Observable<Pageable>> this.http.get(`${this.url}transport/requests-search?requesterName=${search}&page=${page}`);
+  }
 }

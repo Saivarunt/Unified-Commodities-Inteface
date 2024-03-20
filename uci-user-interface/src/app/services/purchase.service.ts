@@ -21,4 +21,8 @@ export class PurchaseService {
   viewAllPurchases(page: number): Observable<Pageable> {
     return <Observable<Pageable>> this.http.get(`${this.url}purchase/?page=${page}`)
   }
+
+  searchPurchase(search: string, page: number): Observable<Pageable> {
+    return <Observable<Pageable>> this.http.get(`${this.url}purchase/search?productName=${search}&page=${page}`)
+  }
 }

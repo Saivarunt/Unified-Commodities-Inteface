@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,8 @@ import { Subscription } from 'rxjs';
 export class LoginComponent {
 
   loginApi: Subscription = new Subscription();
-  constructor (private authService: AuthService, private router: Router, private fb: FormBuilder) {}
+  permissions: string[] = [];
+  constructor (private authService: AuthService, private router: Router, private fb: FormBuilder, private al: AlertService) {}
 
   formResponse = this.fb.group({
     username: ["", [Validators.required, Validators.minLength(1)]],
@@ -34,13 +36,16 @@ export class LoginComponent {
 
           response.body!.user.permissions.forEach((permission) => {
             sessionStorage.setItem(permission.permission, "true");
+            this.permissions.push(permission.permission);
           });
-
+          
+          this.authService.changeValues(this.permissions);
 
           this.authService.isLoggedIn = true;
+          this.al.alertPrompt("Logged In", `Welcome ${response.body!.user.username}`, "success")
         },
         error: (err) => {
-          alert(err.message);
+          this.al.alertPrompt("Error", err.error, "error");
         },
         complete: () => {
           this.router.navigate(['profile']);
@@ -48,7 +53,7 @@ export class LoginComponent {
       })
     }
     else {
-      alert("Invalid credentials!");
+      this.al.alertPrompt("Error","Invalid credentials!", "error");
     }
   }
 

@@ -5,6 +5,7 @@ import { ProductService } from '../services/product.service';
 import { RatingComponent } from '../rating/rating.component';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-delivery-status',
@@ -14,9 +15,10 @@ import Swal from 'sweetalert2';
 export class DeliveryStatusComponent {
   updateSupplierStatusApi: Subscription = new Subscription();
   updateConsumerStatusApi: Subscription = new Subscription();
+  interval = setTimeout(() => {}, 0);
 
  constructor(public dialogRef: MatDialogRef<DeliveryStatusComponent>,
-  @Inject(MAT_DIALOG_DATA) public data: {status: string, lifecycle: LifecycleResponse}, private productService: ProductService, public dialog: MatDialog) {}
+  @Inject(MAT_DIALOG_DATA) public data: {status: string, lifecycle: LifecycleResponse}, private productService: ProductService, public dialog: MatDialog, private al: AlertService) {}
 
 
   openRatingDialog(enterAnimationDuration: string, exitAnimationDuration: string) {
@@ -36,6 +38,7 @@ export class DeliveryStatusComponent {
 
   updateStatus() {
     Swal.showLoading();
+
     if(this.data.status === 'Supplier') {
 
       this.updateSupplierStatusApi = this.productService.updateSupplierStatus(this.data.lifecycle._id) 
@@ -45,10 +48,15 @@ export class DeliveryStatusComponent {
           if(this.data.lifecycle.supplier !== this.data.lifecycle.transporter){
             this.rate();
           }
-          alert("UPDATED SUPPLIER STATUS");
+          else {
+            clearTimeout(this.interval);
+            this.interval = setTimeout(() => this.dialogRef.close(), 1800);   
+          }
+
+          this.al.alertPrompt("UPDATED SUPPLIER STATUS", "Supplier status was successfully updated", "success");
         },
         error: (err) => {
-          alert(err.error);
+          this.al.alertPrompt("Error", err.error, "error");;
         }
       });
     }
@@ -58,17 +66,19 @@ export class DeliveryStatusComponent {
         next: (response) => {
           Swal.close();
           this.rate();
-          alert("UPDATED CONSUMER STATUS");
+          this.al.alertPrompt("UPDATED CONSUMER STATUS", "Supplier status was successfully updated", "success");
         },
         error: (err) => {
-          alert(err.error);
+          this.al.alertPrompt("Error", err.error, "error");;
         }
       });
     }
+
   }
 
   ngOnDestroy() {
     this.updateSupplierStatusApi.unsubscribe();
     this.updateConsumerStatusApi.unsubscribe();
+    window.location.reload();
   }
 }

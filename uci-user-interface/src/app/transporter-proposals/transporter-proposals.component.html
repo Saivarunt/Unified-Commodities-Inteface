@@ -1,4 +1,9 @@
 
+<div class="search-container">
+    <label for="search">Search : </label>
+    <input type="text" name="search" id="search" placeholder="Search by transporter name" [(ngModel)] ="search"  (input)="searchProduct()">
+</div>
+
 <div class="transporter-proposal-container">
     <table *ngIf="proposals.length !== 0" class="proposal">
         <div>

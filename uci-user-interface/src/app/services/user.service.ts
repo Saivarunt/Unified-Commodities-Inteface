@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ProfileResponse } from '../interfaces/profile-response';
 import { ProfileUpdate } from '../interfaces/profile-update';
 import { Pageable } from '../interfaces/pageable';
+import { UserInfo } from '../interfaces/user-info';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,14 @@ export class UserService {
     return <Observable<HttpResponse<ProfileResponse>>> this.http.post(`${this.url}user/profile`, formData, {observe:'response'});
   }
 
+  getByUsername(): Observable<UserInfo> {
+    return <Observable<UserInfo>> this.http.get(`${this.url}user/${sessionStorage.getItem("username")}`);
+  }
+
+  searchByUsername(username: string, page: number): Observable<Pageable> {
+    return <Observable<Pageable>> this.http.get(`${this.url}user/search?username=${username}&page=${page}`);
+  }
+  
   viewAllUsers(page: number): Observable<Pageable>{
     return <Observable<Pageable>> this.http.get(`${this.url}user/?page=${page}`);
   }

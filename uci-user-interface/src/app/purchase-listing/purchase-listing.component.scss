@@ -2,38 +2,45 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 10px;
+    align-items: center;
+    background-color: #dae9ff;
+    padding: 25px;
 }
 
-.form-container {
+.form-container p {
     display: flex;
     justify-content: center;
-    padding: 5px;
-    margin: 10px;
+    margin: 15px;
 }
 
 .button-container{
     display: flex;
     justify-content: center;
-}
-.details-container {
-    margin: 20px;
+    margin: 10px;
 }
 
-.image-container {
+.details-container {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
     flex-direction: column;
+    margin: 10px;
 }
 
-.image-container img {
-    height: 200px;
-    width: 500px;
-    margin: 20px;
-    margin-left: 60px;
+.details-container label, .details-container input{
+    margin-bottom: 10px;
 }
 
 button {
     cursor: pointer;
+}
+
+.details-container div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.product-name p{
+    font-size: 18px;
+    margin-bottom: 10px;
 }

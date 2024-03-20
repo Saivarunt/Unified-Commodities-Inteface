@@ -46,7 +46,6 @@ public class AuthenticationController {
     @Autowired
     SubscriptionService subscriptionService;
 
-    
     @Autowired
     UserService userService;
 
@@ -61,7 +60,6 @@ public class AuthenticationController {
     @PostMapping("/consumer-registration")
     public ResponseEntity<RegistrationResponse> registUserAsConsumer(@RequestBody Registration body) {
         return new ResponseEntity<RegistrationResponse>(authenticationService.registerUser(body,"CONSUMER"), HttpStatus.OK);
-
     }
 
     @PostMapping("/transporter-registration")
@@ -77,7 +75,9 @@ public class AuthenticationController {
     @PostMapping("/generate-otp/{mail_id}")
     public ResponseEntity<MailResponse> generateOtp(@PathVariable String mail_id){
         String otp = emailOtpHandlerService.getOtp(mail_id);
-        return new ResponseEntity<>(new MailResponse(mailSenderService.sendEmail(mail_id, "OTP to verify email", "YOUR OTP: " + otp)), HttpStatus.OK);
+        return new ResponseEntity<>(new MailResponse(mailSenderService.sendEmail(mail_id, "OTP for email verification - UCI", 
+        "Kindly find your one time password herewithin.\n" + "Your OTP: " + otp + 
+        "\nThis is an automatically generated email do not reply to this. Please note to not share your otp with anyone and if you recieved this mail by error kindly report back to UCI.")), HttpStatus.OK);
     }
 
     @PostMapping("/verify-otp/")
@@ -87,9 +87,7 @@ public class AuthenticationController {
     
     @GetMapping("/validate-subscription")
     public ResponseEntity<Boolean> validateSubscription(HttpServletRequest request) {
-        String username = tokenService.validateJWTForUserInfo(request.getHeader("Authorization").split(" ",2)[1]);
-        User user = userService.getUserByUsername(username);
-        return new ResponseEntity<>(subscriptionService.isValid(user), HttpStatus.OK);
+        return new ResponseEntity<>(subscriptionService.isValid(authenticationService.fetchUserFromToken(request)), HttpStatus.OK);
     }
 
     @Scheduled(cron = "0 0 * * * *") // hourly scheduler

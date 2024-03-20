@@ -9,24 +9,28 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { Subscription } from 'rxjs';
 import { PermissionDirective } from '../directives/permission.directive';
+import { AlertService } from '../services/alert.service';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-supplier-home',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatPaginatorModule, RouterModule, MatButtonModule, PermissionDirective],
+  imports: [CommonModule, MatDialogModule, MatPaginatorModule, RouterModule, MatButtonModule, PermissionDirective, FormsModule],
   templateUrl: './supplier-home.component.html',
   styleUrls: ['./supplier-home.component.scss']
 })
 export class SupplierHomeComponent {
   viewProductsApi: Subscription = new Subscription();
+  searchApi: Subscription = new Subscription();
   products: ProductListing[] = [];
   interest: ProductListing | {} = {};
   totalElements: number = 0;
   pageIndex: number = 0;
   pageSize: number = 10;
+  search: string = "";
 
-  constructor(private productService: ProductService, public dialog: MatDialog) {}
+  constructor(private productService: ProductService, public dialog: MatDialog, private al: AlertService) {}
 
   ngOnInit() {
     this.productsOwned(this.pageIndex);
@@ -63,7 +67,7 @@ export class SupplierHomeComponent {
   }
 
   productsOwned(page: number) {
-    this.viewProductsApi = this.productService.viewProducts(page)
+    this.viewProductsApi = this.productService.viewLatestProducts(page)
     .subscribe({
       next: (response) => {
         this.products  = response.content;
@@ -71,7 +75,7 @@ export class SupplierHomeComponent {
         this.totalElements = response.totalElements;
       },
       error: (err) => {
-        alert(err.error);
+        this.al.alertPrompt("Error", err.error, "error");;
       }
     })
   }
@@ -99,7 +103,40 @@ export class SupplierHomeComponent {
     this.openDeleteDialog('30ms', '30ms');
   }
 
+
+  trigger = this.debounce(() => {     
+    this.searchApi = this.productService.searchOwnedProduct(this.search, this.pageIndex > 0 ? 0 : this.pageIndex)
+    .subscribe({
+      next: (response) => {
+        this.products  = response.content;
+        this.pageSize = response.size;
+        this.totalElements = response.totalElements;
+      },
+      error: (err) => {
+        this.al.alertPrompt("Error", err.error, "error");;
+      }
+    });
+  }, 1000)
+
+
+  debounce(cb: Function, delay: number) {
+    let interval = setTimeout(() => {}, 0);
+    return (...args: any) =>{
+        clearTimeout(interval);
+        interval = setTimeout(() => {
+            cb(...args)
+        }, delay)
+    }
+  }
+
+  searchProduct() {
+    if(this.search[this.search.length - 1] !== " "){
+      this.trigger();
+    }
+  }
+
   ngOnDestroy() {
     this.viewProductsApi.unsubscribe();
+    this.searchApi.unsubscribe();
   }
 }

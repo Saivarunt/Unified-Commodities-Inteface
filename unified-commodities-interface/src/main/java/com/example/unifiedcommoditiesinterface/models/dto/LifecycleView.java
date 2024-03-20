@@ -27,4 +27,5 @@ public class LifecycleView {
 
     private String consumer_status;
 
+    private String created_at;
 }

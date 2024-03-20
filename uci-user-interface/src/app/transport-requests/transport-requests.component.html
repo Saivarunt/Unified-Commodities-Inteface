@@ -1,3 +1,8 @@
+<div class="search-container">
+    <label for="search">Search : </label>
+    <input type="text" name="search" id="search" placeholder="Search by requester name" [(ngModel)] ="search"  (input)="searchProduct()">
+</div>
+
 <div class="transport-requests-container">
     <table class="transport-requests">
         <div *ngIf="listTransportRequests.length !== 0">

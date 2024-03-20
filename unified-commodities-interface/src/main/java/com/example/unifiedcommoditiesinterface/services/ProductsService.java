@@ -23,4 +23,6 @@ public interface ProductsService {
     public Boolean updateConsumerStatus(String _id);
     public Boolean rateTransporter(Integer rating, String lifecycle_id, User user);
     public Boolean rateProduct(Integer rating, String lifecycle_id, User user);
+    public Page<ProductListing> searchOwnedProduct(String productname, Integer page, User user);
+    public Page<ProductListing> getAllListingByUserSortedByLatest(User user, Integer page);
 }

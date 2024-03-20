@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import { AlertService } from '../services/alert.service';
 declare const Razorpay: any;
 
 
@@ -28,6 +29,9 @@ export class ProfileComponent {
   getProfileApi: Subscription = new Subscription();
   createOrderApi: Subscription = new Subscription();
   updateProfileApi: Subscription = new Subscription();
+  permissionsApi: Subscription = new Subscription();
+
+  permissions: string[] = [];
 
   // verify subscription
   profile: ProfileResponse | null = null;
@@ -60,7 +64,7 @@ export class ProfileComponent {
     "period": [this.profile?.subscription?.period || null],
   })
   
-  constructor(private fb: FormBuilder, private userService: UserService, private authService: AuthService, private router: Router){ 
+  constructor(private fb: FormBuilder, private userService: UserService, private authService: AuthService, private router: Router, private al: AlertService){ 
     this.getProfileApi = this.userService.getProfileInfo()
     .subscribe({
       next: (response) => {
@@ -84,7 +88,7 @@ export class ProfileComponent {
         })
       },
       error: (err) => {
-        alert(err.message);
+        this.al.alertPrompt("Error", err.message, "error");
       }
     });
   }
@@ -96,7 +100,7 @@ export class ProfileComponent {
       key: response.key,
       amount: response.amount,
       currency: response.currency,
-      name: 'Sai',
+      name: 'UCI',
       description: 'Payment of Subscription',
       image: 'https://img.freepik.com/free-vector/mobile-bank-users-transferring-money-currency-conversion-tiny-people-online-payment-cartoon-illustration_74855-14454.jpg',
       prefill: {
@@ -134,6 +138,7 @@ export class ProfileComponent {
     this.payment_info.razorpay_order_id = response.razorpay_order_id;
     this.payment_info.razorpay_signature = response.razorpay_signature;
     this.formResponse.get('period')?.disable({onlySelf: true});
+    this.al.alertPrompt("Payment Successful", "Subscription payment successful and your plan has been activated", "success");
   }
 
   pay(amount: number) {
@@ -145,7 +150,7 @@ export class ProfileComponent {
             this.openTransactionModel(response);
           },
           error: (err) =>{
-            alert(err);
+            this.al.alertPrompt("Error", err.error, "error");
           }
         })
   }
@@ -174,10 +179,44 @@ export class ProfileComponent {
   logoutUser() {
     sessionStorage.clear();
     this.authService.isLoggedIn = false;
+    this.al.alertPrompt("Logged out", "Successfully logged out", "success");
   }
 
   addFile($event: any){
     this.profile_image = $event.target.files[0]
+  }
+
+  updatePermissions() {
+    this.permissionsApi = this.userService.getByUsername()
+    .subscribe({
+      next: (response) => {
+        
+        response.permissions.forEach((permission) => {
+          sessionStorage.setItem(permission.permission, "true");
+          this.permissions.push(permission.permission);
+        });
+        console.log(this.permissions);
+        
+        this.authService.changeValues(this.permissions);
+      },
+      error: (err) => {
+        this.al.alertPrompt("Error", err.error, "error");
+      },
+      complete: () => {          
+        if(this.supplier){
+          this.router.navigate(['home/supplier-home']);
+        }
+        else if(this.consumer){
+          this.router.navigate(['home/consumer-home']);
+        }
+        else if(this.transporter){
+          this.router.navigate(['home/transporter-home']);
+        }
+        else {
+          this.router.navigate(['home']);
+        }
+      }
+    });
   }
 
   updateProfile() {
@@ -217,26 +256,20 @@ export class ProfileComponent {
       this.updateProfileApi = this.userService.updateProfile(formData)
       .subscribe({
         next: (response) => {
-          if(this.supplier){
-            this.router.navigate(['home/supplier-home']);
-          }
-          else if(this.consumer){
-            this.router.navigate(['home/consumer-home']);
-          }
-          else if(this.transporter){
-            this.router.navigate(['home/transporter-home']);
+          if(this.profile?.subscription === null || this.profile?.subscription === undefined){
+            this.updatePermissions();
           }
           else {
-            this.router.navigate(['home']);
+            this.al.alertPrompt("Profile Updated", "Updated profile information sucessfully!", "success")
           }
         },
         error: (err) =>{
-          alert(err.message);
-        }
+          this.al.alertPrompt("Error", err.error, "error");
+        },
       })
     }
     else{
-      alert("Check if all form fields are filled");
+      this.al.alertPrompt("Invalid input", "Check if all form fields are filled", "error");
     }
     
   }
@@ -245,5 +278,6 @@ export class ProfileComponent {
     this.getProfileApi.unsubscribe();
     this.createOrderApi.unsubscribe();
     this.updateProfileApi.unsubscribe();
+    this.permissionsApi.unsubscribe();
   }
 }

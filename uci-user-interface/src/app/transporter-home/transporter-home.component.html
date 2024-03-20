@@ -11,7 +11,7 @@
                         <p>Product Name: {{request.product.product_name}}</p>
                         <p>Description: <a>{{request.product.description}}</a> </p>
                         <p>Quantity: {{request.quantity}}</p>
-    
+                        <p>Posted: {{request.posted_at}} ago</p>
                         <button appPermission value="MAKE_TRANSPORTATION_PROPOSAL" (click)="makeProposal(request._id)">Make Proposal</button>
                 </div>
             </div>

@@ -14,5 +14,7 @@ export interface ListTransportationalRequest {
     },
     user: ProfileResponse,
     quantity: number,
-    status: string
+    status: string,
+    posted_at: string
+
 }

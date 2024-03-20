@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Repository
-public interface TransporterProposalRepository extends MongoRepository<TransporterProposal, String>{
+public interface TransporterProposalRepository extends MongoRepository<TransporterProposal, String> {
     List<TransporterProposal> findByRequest(TransportationalRequests request);
     Page<TransporterProposal> findByTransporter(User transporter, Pageable pageable);
     Page<TransporterProposal> findByRequest(TransportationalRequests request, Pageable pageable);

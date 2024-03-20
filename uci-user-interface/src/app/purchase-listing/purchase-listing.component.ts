@@ -6,6 +6,7 @@ import { PurchaseService } from '../services/purchase.service';
 import { PurchaseInfo } from '../interfaces/purchase-info';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-purchase-listing',
@@ -16,9 +17,10 @@ export class PurchaseListingComponent {
   purchaseProductApi: Subscription = new Subscription();
   productInterest!: ProductListing;
   price: number = 0;
+  close: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<PurchaseListingComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {product: ProductListing} , private fb: FormBuilder, private purchaseService: PurchaseService, private router: Router) {}
+    @Inject(MAT_DIALOG_DATA) public data: {product: ProductListing} , private fb: FormBuilder, private purchaseService: PurchaseService, private router: Router, private al: AlertService) {}
 
 
     formResponse: FormGroup = this.fb.group({
@@ -48,32 +50,37 @@ export class PurchaseListingComponent {
         this.purchaseProductApi = this.purchaseService.purchaseProduct(interest)
         .subscribe({
           next: (response) => {
+            this.al.alertPrompt("Purchase Initiated", "Purchase request was sent.", "success");
           },
           error: (err) => {                       
-            alert(err.error);
+            this.al.alertPrompt("Error", err.error, "error");;
           }
         });
         
       }
       else{
-        alert("Verify Inputs");
+        this.al.alertPrompt("Invalid inputs", "Please check inputs provided!", "error");
       }
       
     }
+
+    dialogueClosed() {
+      this.close = true;
+    }
     
     purchasePrice() {     
-      this.price = parseFloat(this.formResponse.value.quantity) * (this.productInterest.price / this.productInterest.quantity);
+      this.price = parseFloat(((this.formResponse.value.quantity) * (this.productInterest.price / this.productInterest.quantity)).toFixed(2));
     }
     
     ngOnDestroy() {
       this.purchaseProductApi.unsubscribe();
-
-      if(this.formResponse.value.transportation_type === "Self"){
+      
+      if(this.formResponse.value.transportation_type === "Self" && !this.close){
         this.router.navigate(['home/delivery-details'])
       }
-      else{
+      else if(this.formResponse.value.transportation_type !== "" && !this.close) {
         this.router.navigate(['home/transportation'])
       }
-    
+
     }
 }

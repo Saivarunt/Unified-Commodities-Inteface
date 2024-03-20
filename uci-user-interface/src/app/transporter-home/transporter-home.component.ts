@@ -6,6 +6,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ListTransportationalRequest } from '../interfaces/list-transportational-request';
 import { Subscription } from 'rxjs';
 import { PermissionDirective } from '../directives/permission.directive';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-transporter-home',
@@ -24,26 +25,27 @@ export class TransporterHomeComponent {
   viewAllRequestsApi: Subscription = new Subscription();
   makeTransportProposalApi: Subscription = new Subscription();
 
-  constructor(private transportationService: TransportationService, private router: Router) {}
+  constructor(private transportationService: TransportationService, private router: Router, private al: AlertService) {}
 
   ngOnInit() {
     this.transportRequests(this.pageIndex)
   }
 
   transportRequests(page: number) {
-    this.viewAllRequestsApi = this.transportationService.viewAllRequests(page)
+    this.viewAllRequestsApi = this.transportationService.viewLatestRequests(page)
     .subscribe({
       next: (response) => {
         this.listTransportRequests = response.content;
         this.pageSize = response.size;
-        this.totalElements = response.totalElements;
         
         this.listTransportRequests = this.listTransportRequests.filter((val) => {
           return val.status !== "INITIATED";
-        });       
+        });
+        
+        this.totalElements = this.listTransportRequests.length;
       },
       error: (err) => {
-        alert(err.error)
+        this.al.alertPrompt("Error", err.error, "error");
       }
     })
   }
@@ -54,13 +56,18 @@ export class TransporterHomeComponent {
   }
 
   makeProposal(request_id: string) {
+    let request = this.listTransportRequests.filter((val) => {
+      return val._id === request_id
+    })[0];
+
     this.makeTransportProposalApi = this.transportationService.makeTransportProposal(request_id)
     .subscribe({
       next: (response) => {
+        this.al.alertPrompt("Proposal Made", `Proposal was made for transport request ${request.product.product_name}`, "success")
         this.router.navigate(['home/delivery-proposals'])
       },
       error: (err) => {
-        alert(err.error);
+        this.al.alertPrompt("Error", err.error, "error");;
       }
     })
   }

@@ -12,4 +12,5 @@ import com.example.unifiedcommoditiesinterface.models.dto.PurchaseResponse;
 public interface PurchaseInfoService {
     public PurchaseResponse purchaseProduct(PurchaseRequest purchaseRequest, User user);
     public Page<PurchaseInfo> findAllPurchaseInfo(Integer page);
+    public Page<PurchaseInfo> searchByProduct(String productName, Integer page);
 }

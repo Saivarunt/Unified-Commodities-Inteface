@@ -1,6 +1,6 @@
 <div class="search-container">
     <label for="search">Search : </label>
-    <input type="text" name="search" id="search" [(ngModel)] ="search"  (input)="searchProduct()">
+    <input type="text" name="search" id="search" [(ngModel)] ="search" placeholder="Search Product" (input)="searchProduct()">
 </div>
 
 <div class="container">
@@ -8,7 +8,7 @@
         <div class="card-inner">
             <div class="front">
                 <img [src]="product.product_image">
-                <p class="text-content">Product: {{product.product_name}}</p>
+                <p class="text-content">{{product.product_name}}</p>
 
             </div>
             <div class="back">

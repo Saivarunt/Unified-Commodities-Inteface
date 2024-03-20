@@ -9,6 +9,7 @@ import { HomeModule } from '../home/home.module';
 import { ProductService } from '../services/product.service';
 import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AlertService } from '../services/alert.service';
 @Component({
   selector: 'app-rating',
   standalone: true,
@@ -23,7 +24,7 @@ export class RatingComponent {
   rating: number = 0;
 
   constructor(public dialogRef: MatDialogRef<RatingComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {lifecycle: LifecycleResponse}, private productService: ProductService, private router: Router) {}
+    @Inject(MAT_DIALOG_DATA) public data: {lifecycle: LifecycleResponse}, private productService: ProductService, private router: Router, private al: AlertService) {}
 
   setRating(value: number) {
     this.rating = value; 
@@ -43,7 +44,7 @@ export class RatingComponent {
 
       },
       error: (err) => {
-        alert(err.error);
+        this.al.alertPrompt("Error", err.error, "error");;
       }
     })
   }
@@ -55,7 +56,7 @@ export class RatingComponent {
         this.dialogRef.close();
       },
       error: (err) => {
-        alert(err.error);
+        this.al.alertPrompt("Error", err.error, "error");;
       }
     })
   }

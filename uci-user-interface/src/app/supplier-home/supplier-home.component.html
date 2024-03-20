@@ -1,8 +1,14 @@
 
 <br>
 <div class="new-listing">
+    <div class="search-container">
+        <label for="search">Search : </label>
+        <input type="text" name="search" id="search" placeholder="Search by product name" [(ngModel)] ="search"  (input)="searchProduct()">
+    </div>
+    <div></div>
     <button (click)="makeNewListing()" appPermission value="EDIT_PRODUCTS">New Product Listing</button>
 </div>
+
 
 <div class="container">
     <div class="card" *ngFor="let product of products">

@@ -14,7 +14,6 @@ import java.util.List;
 @Repository
 public interface ProductsRepository extends MongoRepository<Products, String>{
     List<Products> findByOwner(User owner);
-
     Page<Products> findByOwner(User owner, Pageable pageable);
     @Query("{product_name:/?0/}")
     Page<Products> findByProduct_name(String product_name, Pageable pageable);

@@ -3,6 +3,7 @@ import { ListTransportationalRequest } from '../interfaces/list-transportational
 import { TransportationService } from '../services/transportation.service';
 import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-transport-requests',
@@ -11,12 +12,15 @@ import { Subscription } from 'rxjs';
 })
 export class TransportRequestsComponent {
   viewAllRequestsApi: Subscription = new Subscription();
+  searchApi: Subscription = new Subscription();
   listTransportRequests: ListTransportationalRequest[] | [] = [];
+  // requests: = 
   totalElements: number = 0;
   pageIndex: number = 0;
   pageSize: number = 10;
+  search: string = "";
 
-  constructor(private transportationService: TransportationService) {}
+  constructor(private transportationService: TransportationService, private al: AlertService) {}
 
   ngOnInit() {
     this.transportRequests(this.pageIndex)
@@ -31,7 +35,7 @@ export class TransportRequestsComponent {
         this.totalElements = response.totalElements;
       },
       error: (err) => {
-        alert(err.error)
+       this.al.alertPrompt("Error", err.error, "error");
       }
     })
   }
@@ -41,7 +45,44 @@ export class TransportRequestsComponent {
     this.transportRequests(this.pageIndex);
   }
 
+  trigger = this.debounce(() => {     
+    this.searchApi = this.transportationService.searchRequester(this.search, this.pageIndex > 0 ? 0 : this.pageIndex)
+      .subscribe({
+        next: (response) => {
+          if(response !== null) {
+            this.listTransportRequests  = response.content;
+            this.pageSize = response.size;
+            this.totalElements = response.totalElements;
+          }
+          else{
+            this.listTransportRequests = [];
+          }
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");;
+        }
+      });
+  }, 1000)
+
+
+  debounce(cb: Function, delay: number) {
+    let interval = setTimeout(() => {}, 0);
+    return (...args: any) =>{
+        clearTimeout(interval);
+        interval = setTimeout(() => {
+            cb(...args)
+        }, delay)
+    }
+  }
+
+  searchProduct() {
+    if(this.search[this.search.length - 1] !== " "){
+      this.trigger();
+    }
+  }
+
   ngOnDestroy() {
     this.viewAllRequestsApi.unsubscribe();
+    this.searchApi.unsubscribe();
   }
 }

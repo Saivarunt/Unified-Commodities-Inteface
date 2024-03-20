@@ -12,6 +12,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { RoleGuard } from 'src/app/role.guard';
+import { FormsModule } from '@angular/forms';
 
 const appRoute: Routes = [
   {
@@ -66,7 +67,8 @@ const appRoute: Routes = [
     RouterModule.forChild(appRoute),
     MatPaginatorModule,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule
   ],
   exports: [
     RouterModule,     

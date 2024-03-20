@@ -41,5 +41,8 @@ public class UserServiceImplementation implements UserService, UserDetailsServic
     public List<User> fetchAllUsers() {
         return userRepository.findAll();
     }
-
+    
+    public Page<User> fetchByUsername(String username, Integer page) {
+        return userRepository.findByUsername(username, PageRequest.of(page, 30));
+    }
 }

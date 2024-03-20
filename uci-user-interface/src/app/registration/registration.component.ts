@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-registration',
@@ -22,7 +23,7 @@ export class RegistrationComponent {
   registerConsumerApi: Subscription = new Subscription();
   registerTransporterApi: Subscription = new Subscription();
 
-  constructor (private authService: AuthService, private router:Router, private registrationService: RegistrationService, private fb: FormBuilder) {}
+  constructor (private authService: AuthService, private router:Router, private registrationService: RegistrationService, private fb: FormBuilder, private al: AlertService) {}
 
   formResponse = this.fb.group({
     username: ["", [Validators.required, Validators.minLength(1)]],
@@ -37,24 +38,28 @@ export class RegistrationComponent {
   }
 
   generateOtp() {
-    Swal.showLoading();
-    if(this.formResponse.get("mail")?.value === null || this.formResponse.get("mail")?.value === undefined || this.formResponse.get("mail")?.value === "") {
-      Swal.close();
-      alert("Enter email to get otp");
+    if(this.registrationType === "") {
+      this.al.alertPrompt("No registration type provided", "Choose a type to generate otp!", "warning");
+      return;
+    }
+    
+    if(this.formResponse.get("mail")?.value === null || this.formResponse.get("mail")?.value === undefined || this.formResponse.get("mail")?.value === "" || this.formResponse.get("username")?.value === "") {
+      this.al.alertPrompt("Invalid / No credentials provided", "Enter username and email to get otp", "error");
       return;
     }
     else{
+      Swal.showLoading();
       this.enableOtp = true;
       this.getOtpApi = this.authService.getOtp(this.formResponse.get("mail")?.value)
       .subscribe({
         next: (response) =>{
           Swal.close();         
-          alert("Otp generated; Kindly check your email.");
+          this.al.alertPrompt("Otp sent", "Otp generated; Kindly check your email.", "info");
         },
         error: (err) => {  
           console.log(err);
           Swal.close();
-          alert(err.error);
+          this.al.alertPrompt("Error", err.error, "error");
         }
       })
     }
@@ -62,7 +67,7 @@ export class RegistrationComponent {
 
   verifyOtp() {
     if(this.formResponse.get("otp")?.value === null || this.formResponse.get("otp")?.value === undefined || this.formResponse.get("otp")?.value === "") {
-      alert("Enter otp to validate");
+      this.al.alertPrompt("No OTP provided", "Enter OTP to validate", "warning");
       return;
     }
     else{
@@ -72,14 +77,15 @@ export class RegistrationComponent {
         next: (response) =>{
           this.otpValid = response.body!.valueOf();
           if(response.body!.valueOf() === false){
-            alert("Invalid OTP");
+            this.al.alertPrompt("Invalid OTP", "The provided OTP is invalid", "error");
           }
           else {
+            this.formResponse.get('username')?.disable({onlySelf:true});
             this.formResponse.get('mail')?.disable({onlySelf:true});
           }
         },
         error: (err) => {
-          alert(err);
+          this.al.alertPrompt("Error", err.error, "error");
         }
       })
     }
@@ -101,10 +107,11 @@ export class RegistrationComponent {
           },
   
           error: (error) => {
-            alert("Duplicate Credentials or Invalid input");
+            this.al.alertPrompt("Invalid info provided", "Duplicate Credentials or Invalid input", "error");
           },
   
           complete: () => {
+            this.al.alertPrompt("Registration Successful", "Succesfully registered as Supplier", "success");
             this.router.navigate(['login']);
           }
   
@@ -125,10 +132,11 @@ export class RegistrationComponent {
           },
   
           error: (error) => {
-            alert("Duplicate Credentials or Invalid input");
+            this.al.alertPrompt("Invalid info provided", "Duplicate Credentials or Invalid input", "error");
           },
   
           complete: () => {
+            this.al.alertPrompt("Registration Successful", "Succesfully registered as Consumer", "success");
             this.router.navigate(['login']);
           }
   
@@ -149,10 +157,11 @@ export class RegistrationComponent {
           },
   
           error: (error) => {
-            alert("Duplicate Credentials or Invalid input");
+            this.al.alertPrompt("Invalid info provided", "Duplicate Credentials or Invalid input", "error");
           },
   
           complete: () => {
+            this.al.alertPrompt("Registration Successful", "Succesfully registered as Transporter", "success");
             this.router.navigate(['login']);
           }
   
@@ -160,11 +169,11 @@ export class RegistrationComponent {
   
       }
       else{
-        alert("Pick a registration type and check inputs provided!")
+        this.al.alertPrompt("Invalid info provided" ,"Check inputs provided!", "error");
       }
     }
     else{
-      alert("Passwords don't match")
+      this.al.alertPrompt("Passwords don't match", "Kindly check and make sure both passowrds match", "error");
     }
   }
 

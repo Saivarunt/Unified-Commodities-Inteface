@@ -8,19 +8,19 @@
     <div class="form-container">
         <form [formGroup]="formResponse" (ngSubmit)="listingProduct()">
             <label for="product-name">Product Name: </label> <br>
-            <input type="text" name="product-name" id="product-name" formControlName = "product_name" required>
+            <input type="text" name="product-name" id="product-name" placeholder="Enter product name" formControlName = "product_name" required>
             <br>
     
             <label for="description">Description: </label> <br>
-            <input type="text" name="description" id="description" formControlName = "description" required>
+            <input type="text" name="description" id="description" placeholder="Enter product description" formControlName = "description" required>
             <br>
     
             <label for="price">Price: </label> <br>
-            <input type="number" name="price" id="price" formControlName = "price" required>
+            <input type="number" name="price" id="price" placeholder="Enter product price" formControlName = "price" required>
             <br>
     
             <label for="quantity">Quantity (in Kg): </label> <br>
-            <input type="number" name="quantity" id="quantity" formControlName = "quantity" required>
+            <input type="number" name="quantity" id="quantity" placeholder="Enter product quantity" formControlName = "quantity" required>
             <br>
     
             <label>Transportation Type</label> <br>
@@ -50,19 +50,19 @@
     <div class="form-container">
         <form [formGroup]="formResponse" (ngSubmit)="updateProduct()">
             <label for="product-name">Product Name: </label> <br>
-            <input type="text" name="product-name" id="product-name" formControlName = "product_name" [value]="formResponse.value.product_name" required>
+            <input type="text" name="product-name" id="product-name" placeholder="Enter product name" formControlName = "product_name" [value]="formResponse.value.product_name" required>
             <br>
     
             <label for="description">Description: </label> <br>
-            <input type="text" name="description" id="description" formControlName = "description" [value]="formResponse.value.description" required>
+            <input type="text" name="description" id="description" placeholder="Enter product description" formControlName = "description" [value]="formResponse.value.description" required>
             <br>
     
             <label for="price">Price: </label> <br>
-            <input type="number" name="price" id="price" formControlName = "price" [value]="formResponse.value.price" required>
+            <input type="number" name="price" id="price" placeholder="Enter product price" formControlName = "price" [value]="formResponse.value.price" required>
             <br>
     
             <label for="quantity">Quantity (in Kg): </label> <br>
-            <input type="number" name="quantity" id="quantity" formControlName = "quantity" [value]="formResponse.value.quantity" required>
+            <input type="number" name="quantity" id="quantity" placeholder="Enter product quantity" formControlName = "quantity" [value]="formResponse.value.quantity" required>
             <br>
     
             <label>Transportation Type</label> <br>
@@ -83,7 +83,10 @@
 
 <div *ngIf="type === 'delete'" class="delete-container">
     <p>Are you sure you want to delete this product?</p> <br>
-    <button mat-raised-button (click)="deleteProduct()">Yes</button>
-    <button mat-raised-button mat-dialog-close>No</button>
+
+    <div>
+        <button mat-raised-button (click)="deleteProduct()">Yes</button>
+        <button mat-raised-button mat-dialog-close>No</button>
+    </div>
 
 </div>

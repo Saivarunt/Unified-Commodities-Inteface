@@ -57,6 +57,12 @@ public class ProductsController {
     public ResponseEntity<Page<ProductListing>> viewProductsOwned(@RequestParam Integer page, HttpServletRequest request) {
         return new ResponseEntity<Page<ProductListing>>(productsService.getAllListingByUser(authenticationService.fetchUserFromToken(request), page), HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('SUPPLIER') or hasRole('ADMIN')")
+    @GetMapping("/owned-latest")
+    public ResponseEntity<Page<ProductListing>> viewProductsOwnedLatest(@RequestParam Integer page, HttpServletRequest request) {
+        return new ResponseEntity<Page<ProductListing>>(productsService.getAllListingByUserSortedByLatest(authenticationService.fetchUserFromToken(request), page), HttpStatus.OK);
+    }
     
     @PreAuthorize("@permissionsService.hasAccess('EDIT_PRODUCTS')")
     @PostMapping("/product-listing")
@@ -76,6 +82,11 @@ public class ProductsController {
         return new ResponseEntity<Page<ProductListing>>(productsService.viewSearchProduct(productname, page), HttpStatus.OK);
     }
     
+    @GetMapping("/search-owned")
+    public ResponseEntity<Page<ProductListing>> searchOwnedProductByName(@RequestParam String productname, @RequestParam Integer page, HttpServletRequest request) {
+        return new ResponseEntity<Page<ProductListing>>(productsService.searchOwnedProduct(productname, page, authenticationService.fetchUserFromToken(request)), HttpStatus.OK);
+    }
+
     // delete
     @PreAuthorize("@permissionsService.hasAccess('DELETE_PRODUCTS')")
     @DeleteMapping("/delete")

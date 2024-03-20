@@ -1,5 +1,7 @@
 package com.example.unifiedcommoditiesinterface.models;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
@@ -34,4 +36,5 @@ public class ProductLifecycle {
 
     private String consumer_status;
 
+    private Date created_at;
 }

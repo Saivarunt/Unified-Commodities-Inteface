@@ -1,20 +1,20 @@
 nav {
     display: flex;
     justify-content: space-between;
-    background-color: #333;
+    background-color: #252B48;
     overflow: hidden;
   }
   
   nav div a {
     float: left;
-    color: white;
+    color: #EEF5FF;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
   }
   
-  nav a:hover {
-    background-color: #ddd;
+  nav div a:hover {
+    background-color: #eeeeee;
     color: black;
   }
 
@@ -35,8 +35,8 @@ nav img {
 
 .uci-header {
   display: flex;
-  font-size: 25px;
-  margin-top: 5px;
+  font-size: 18px;
+  margin-top: 12px;
   color: white;
   justify-content: center;
   align-items: center;

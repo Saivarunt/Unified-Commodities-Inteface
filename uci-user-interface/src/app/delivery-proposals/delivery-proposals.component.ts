@@ -6,6 +6,7 @@ import { TransportProposalListing } from '../interfaces/transport-proposal-listi
 import { ListTransportationalRequest } from '../interfaces/list-transportational-request';
 import { MatButtonModule } from '@angular/material/button';
 import { Subscription } from 'rxjs';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-delivery-proposals',
@@ -25,7 +26,7 @@ export class DeliveryProposalsComponent {
   pageIndex: number = 0;
   pageSize: number = 10;
 
-  constructor(private transportationService: TransportationService) {}
+  constructor(private transportationService: TransportationService, private al: AlertService) {}
 
   ngOnInit() {
     this.fetchProposalsMade(this.pageIndex);
@@ -33,15 +34,15 @@ export class DeliveryProposalsComponent {
 
   fetchRequestDetails(proposal: TransportProposalListing, request_id: string) {
     this.fetchRequestDetailsApi = this.transportationService.viewRequestById(request_id)
-          .subscribe({
-            next: (response) => {
-              this.requestInfo = response;
-              this.proposalsByRequest = this.proposalsByRequest?.concat(({proposal, request:this.requestInfo}))
-            },
-            error: (err) => {
-              alert(err.error);
-            }
-          })
+      .subscribe({
+        next: (response) => {
+          this.requestInfo = response;
+          this.proposalsByRequest = this.proposalsByRequest?.concat(({proposal, request: this.requestInfo}))
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");
+        }
+      })
   }
   
   fetchProposalsMade(page: number) {
@@ -58,7 +59,7 @@ export class DeliveryProposalsComponent {
 
       },
       error: (err) => {
-        alert(err.error);
+        this.al.alertPrompt("Error", err.error, "error");;
       }
     })
   }

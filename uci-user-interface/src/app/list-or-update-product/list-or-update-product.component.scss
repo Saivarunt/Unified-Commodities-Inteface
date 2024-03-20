@@ -1,4 +1,10 @@
-.list-product .update-product{
+.list-product, .update-product{
+    background-color: #dae9ff;
+    padding-top: 20px;
+    padding-bottom: 0px;
+}
+
+.list-product, .update-product{
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -23,17 +29,24 @@
 }
 
 .delete-container{
-    display: block;
-    padding: 20px;
-    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #dae9ff;
+    padding: 45px;
+    font-size: 16px;
 }
 
-.delete-container button{
+.delete-container div{
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     float: left;
-    margin: 10px;
+}
+
+.delete-container div button{
+    margin-right: 10px;
     cursor: pointer;
+    margin-bottom: 30px;
 }
 

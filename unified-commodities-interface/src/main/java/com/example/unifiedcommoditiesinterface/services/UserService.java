@@ -12,4 +12,5 @@ public interface UserService {
     public User getUserByUsername(String username);
     public Page<User> findAllUsers(Integer page);
     public List<User> fetchAllUsers();
+    public Page<User> fetchByUsername(String username, Integer page);
 }

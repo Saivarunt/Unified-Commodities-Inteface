@@ -48,9 +48,16 @@ public class PurchaseInfoController {
     }
 
     // get all purchase info
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/")
     public ResponseEntity<Page<PurchaseInfo>> fetchAllPurchases(@RequestParam Integer page) {
         return new ResponseEntity<>(purchaseInfoService.findAllPurchaseInfo(page), HttpStatus.OK);
     }
-
+    
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/search")
+    public ResponseEntity<Page<PurchaseInfo>> searchByProductName(@RequestParam String productName, @RequestParam Integer page) {
+        return new ResponseEntity<>(purchaseInfoService.searchByProduct(productName, page), HttpStatus.OK);
+    }
+    
 }

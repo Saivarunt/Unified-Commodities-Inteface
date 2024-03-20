@@ -1,16 +1,18 @@
 <div class="whole-container">
     <div class="login-container">
         <form [formGroup]="formResponse" (ngSubmit)="loginResponseFunction()">
-            <p class="uci-header">UCI</p> <br>
-            <p class="login-header">Login</p> <br>
-            
-            <p>* <span><a routerLink="/register">Register</a></span> if you have not signed up yet.</p>
-        
+            <div class="info-container">
+                <img src="assets/uci.png">
+                <p class="uci-header">Unified Commodities Interface</p> <br>
+                <p class="login-header">Login</p> <br>
+                
+                <p>* <span><a routerLink="/register">Register</a></span> if you have not signed up yet.</p>
+            </div>
             <div class="value-div">
-                <label for="name">Name:</label> <br>
-                <input type="text" id="name" name="username" formControlName= "username" required> <br>
+                <label for="name">Username:</label> <br>
+                <input type="text" id="name" name="username" placeholder="Enter username" formControlName= "username" required> <br>
                 <label for="pass">Password:</label> <br>
-                <input type="password" id="pass" name="password" formControlName= "password" required> <br>
+                <input type="password" id="pass" name="password" placeholder="Enter password" formControlName= "password" required> <br>
             </div>
             
             <div class="button-div">

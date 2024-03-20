@@ -1,13 +1,17 @@
 package com.example.unifiedcommoditiesinterface.services.implementation;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +67,7 @@ public class ProductsServiceImplementation implements ProductsService {
     public ProductListing newListing(ListingProduct productListing, User user) throws IOException {
         Products product = productsRepository.save(new Products(null, productListing.getProduct_name(), user, productListing.getDescription(), 
         Long.parseLong(productListing.getPrice()), Double.parseDouble(productListing.getQuantity()), imageService.imageUpload(productListing.getProduct_image(), user.getUsername()), 
-        productListing.getTransportation_type()));
+        productListing.getTransportation_type(), new Date()));
         
         return new ProductListing(product.get_id(), product.getProduct_name(), product.getOwner().getProfile(), product.getDescription(), 
         product.getPrice(), product.getQuantity(), product.getProduct_image(), product.getTransportation_type());
@@ -107,10 +111,48 @@ public class ProductsServiceImplementation implements ProductsService {
         return new PageImpl<>(response, PageRequest.of(page, 10), products.getTotalElements());
     }
 
+    public Page<ProductListing> getAllListingByUserSortedByLatest(User user, Integer page) {
+        Page<Products> products = productsRepository.findByOwner(user, PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "date_posted")));
+
+        List<ProductListing> response = products.getContent().stream()
+        .map(product -> new ProductListing(
+            product.get_id(),
+            product.getProduct_name(),
+            product.getOwner().getProfile(),
+            product.getDescription(),
+            product.getPrice(),
+            product.getQuantity(),
+            product.getProduct_image(),
+            product.getTransportation_type()
+            ))
+        .collect(Collectors.toList());
+
+        return new PageImpl<>(response, PageRequest.of(page, 10), products.getTotalElements());
+    }
+
     public Page<ProductListing> viewAllProducts(Integer page) {
         Page<Products> products = productsRepository.findAll(PageRequest.of(page, 10));
 
         List<ProductListing> response = products.getContent().stream()
+        .map(product -> new ProductListing(
+            product.get_id(),
+            product.getProduct_name(),
+            product.getOwner().getProfile(),
+            product.getDescription(),
+            product.getPrice(),
+            product.getQuantity(),
+            product.getProduct_image(),
+            product.getTransportation_type()
+            ))
+        .collect(Collectors.toList());
+
+        return new PageImpl<>(response, PageRequest.of(page, 10), products.getTotalElements()); 
+    }
+
+    public Page<ProductListing> searchOwnedProduct(String productname, Integer page, User user) {
+        Page<Products> products = productsRepository.findByOwner(user, PageRequest.of(page, 10));
+        List<ProductListing> response = products.getContent().stream()
+        .filter(value -> value.getProduct_name().contains(productname))
         .map(product -> new ProductListing(
             product.get_id(),
             product.getProduct_name(),
@@ -153,6 +195,32 @@ public class ProductsServiceImplementation implements ProductsService {
         }
         return false;
     }
+
+    public String dateToDisplay (Date datePosted) {
+        StringBuilder todisplay = new StringBuilder();
+
+        if(getDateDiff(new Date(), datePosted, TimeUnit.DAYS) > 0) {
+            todisplay.append(Long.toString(getDateDiff(new Date(), datePosted, TimeUnit.DAYS)) + " Day(s) "); 
+        }
+        
+        if(getDateDiff(new Date(), datePosted, TimeUnit.HOURS) > 0 && getDateDiff(new Date(), datePosted, TimeUnit.HOURS) < 24) {
+            todisplay.append(Long.toString(getDateDiff(new Date(), datePosted, TimeUnit.HOURS)) + " Hour(s) ");
+        }
+
+        if(getDateDiff(new Date(), datePosted, TimeUnit.MINUTES) >= 0 && getDateDiff(new Date(), datePosted, TimeUnit.MINUTES) < 60) {
+            todisplay.append(Long.toString(getDateDiff(new Date(), datePosted, TimeUnit.MINUTES)) + " Minute(s) ");
+        }
+
+        return todisplay.toString();
+    }
+
+    public static long getDateDiff(final Date date1, final Date date2, final TimeUnit timeUnit) {
+
+        long diffInMillies = date1.getTime() - date2.getTime();
+
+        return timeUnit.convert(diffInMillies, timeUnit.MILLISECONDS);
+    }
+
     public Page<LifecycleView> lifecycleViewDTOConverter(Page<ProductLifecycle> productLifecycle,  Integer page) {
         List<LifecycleView> lifecycleView = productLifecycle.getContent().stream()
         .map(val -> new LifecycleView(
@@ -163,24 +231,27 @@ public class ProductsServiceImplementation implements ProductsService {
             val.getTransporter().getProfile().getFull_name(), 
             val.getQuantity(), 
             val.getSupplier_status(), 
-            val.getConsumer_status())).collect(Collectors.toList());
+            val.getConsumer_status(),
+            dateToDisplay(val.getCreated_at())
+            )).collect(Collectors.toList());
 
         return new PageImpl<>(lifecycleView, PageRequest.of(page, 20), productLifecycle.getTotalElements());
         
     }
 
+    
     public Page<LifecycleView> fetchLifecycle(User user, Integer page) {
 
         if(!productLifecycleRepository.findByConsumer(user, PageRequest.of(page,10)).isEmpty() && user.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch(val -> val.equals("CONSUMER"))) {
-            Page<ProductLifecycle> productLifecycle = productLifecycleRepository.findByConsumer(user, PageRequest.of(page,20));
+            Page<ProductLifecycle> productLifecycle = productLifecycleRepository.findByConsumer(user, PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "created_at")));
             return lifecycleViewDTOConverter(productLifecycle, page);
         }
         else if(!productLifecycleRepository.findByOwner(user, PageRequest.of(page,10)).isEmpty() && user.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch(val -> val.equals("SUPPLIER"))) {
-            Page<ProductLifecycle> productLifecycle = productLifecycleRepository.findByOwner(user, PageRequest.of(page,20)); 
+            Page<ProductLifecycle> productLifecycle = productLifecycleRepository.findByOwner(user, PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "created_at"))); 
             return lifecycleViewDTOConverter(productLifecycle, page);
         }
         else if(!productLifecycleRepository.findByTransporter(user, PageRequest.of(page,10)).isEmpty() && user.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch(val -> val.equals("TRANSPORTER"))) {
-            Page<ProductLifecycle> productLifecycle = productLifecycleRepository.findByTransporter(user, PageRequest.of(page,20));
+            Page<ProductLifecycle> productLifecycle = productLifecycleRepository.findByTransporter(user, PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC, "created_at")));
             return lifecycleViewDTOConverter(productLifecycle, page);
         }
 
@@ -192,9 +263,9 @@ public class ProductsServiceImplementation implements ProductsService {
         productLifecycle.setSupplier_status("DELIVERED_TO_TRANSPORTER");
         productLifecycleRepository.save(productLifecycle);
 
-        mailSenderService.sendEmail(productLifecycle.getConsumer().getProfile().getEmail(), "Product delivered to transporter", 
+        mailSenderService.sendEmail(productLifecycle.getConsumer().getProfile().getEmail(), "Product delivered to transporter - UCI", 
         "The product " + productLifecycle.getProduct().getProduct_name() + " was deleivered to the transporter "+ 
-        productLifecycle.getTransporter().getProfile().getFull_name() +" and is on its way.");
+        productLifecycle.getTransporter().getProfile().getFull_name() +" at "+ new Date() + " and is on its way.");
 
         return true;
     }
@@ -214,9 +285,9 @@ public class ProductsServiceImplementation implements ProductsService {
         productLifecycle.setConsumer_status("DELIVERY_RECIEVED");
         productLifecycleRepository.save(productLifecycle);
 
-        mailSenderService.sendEmail(productLifecycle.getOwner().getProfile().getEmail(), "Product delivered to consumer", 
+        mailSenderService.sendEmail(productLifecycle.getOwner().getProfile().getEmail(), "Product delivered to consumer - UCI", 
         "The product " + productLifecycle.getProduct().getProduct_name() + 
-        " was successfully deleivered to consumer " + productLifecycle.getConsumer().getProfile().getFull_name()+ ".");
+        " was successfully deleivered to consumer " + productLifecycle.getConsumer().getProfile().getFull_name() + " at "+ new Date() + ".");
         return true;
     }
 

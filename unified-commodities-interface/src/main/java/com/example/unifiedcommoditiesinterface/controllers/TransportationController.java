@@ -52,6 +52,12 @@ public class TransportationController {
     public ResponseEntity<Page<ListTransportationalRequest>> viewTransportRequests(@RequestParam Integer page) {
         return new ResponseEntity<Page<ListTransportationalRequest>>(transportationalRequestsService.fetchTransportationalRequests(page), HttpStatus.OK);
     }
+
+    @PreAuthorize("@permissionsService.hasAccess('VIEW_TRANSPORT_REQUESTS')")
+    @GetMapping("/latest-requests")
+    public ResponseEntity<Page<ListTransportationalRequest>> viewLatestTransportRequests(@RequestParam Integer page) {
+        return new ResponseEntity<Page<ListTransportationalRequest>>(transportationalRequestsService.fetchLatestTransportationalRequests(page), HttpStatus.OK);
+    }
     
     @PreAuthorize("@permissionsService.hasAccess('VIEW_TRANSPORT_REQUESTS')")
     @GetMapping("/requests-by-id")
@@ -108,9 +114,21 @@ public class TransportationController {
         return new ResponseEntity<Boolean>(transporterProposalService.rejectTransporterProposal(_id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/proposals")
     public ResponseEntity<Page<TransporterProposal>> fetchAllProposals(@RequestParam Integer page) {
         return new ResponseEntity<Page<TransporterProposal>>(transporterProposalService.findAllProposals(page), HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/proposals-search")
+    public ResponseEntity<Page<TransporterProposal>> searchProposals(@RequestParam String transporterName, @RequestParam Integer page) {
+        return new ResponseEntity<Page<TransporterProposal>>(transporterProposalService.searchAllProposals(transporterName, page), HttpStatus.OK);
+    }
     
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/requests-search")
+    public ResponseEntity<Page<ListTransportationalRequest>> searchRequests(@RequestParam String requesterName, @RequestParam Integer page) {
+        return new ResponseEntity<Page<ListTransportationalRequest>>(transportationalRequestsService.searchAllRequests(requesterName, page), HttpStatus.OK);
+    }
 }

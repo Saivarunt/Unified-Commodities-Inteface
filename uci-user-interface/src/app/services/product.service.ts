@@ -25,6 +25,10 @@ export class ProductService {
     return <Observable<Pageable>> this.http.get(`${this.url}products/owned?page=${page}`);
   } 
 
+  viewLatestProducts(page: number): Observable<Pageable> {
+    return <Observable<Pageable>> this.http.get(`${this.url}products/owned-latest?page=${page}`);
+  } 
+
   viewAllProducts(page: number): Observable<Pageable> {
     return <Observable<Pageable>> this.http.get(`${this.url}products/?page=${page}`);
   } 
@@ -45,9 +49,13 @@ export class ProductService {
     return <Observable<HttpResponse<Boolean>>> this.http.post(`${this.url}products/consumer-status?_id=${_id}`, {}, {observe: 'response'});
   }
 
-  searchValue(value: string, page: number): Observable<Pageable> {
+  searchProduct(value: string, page: number): Observable<Pageable> {
     return <Observable<Pageable>> this.http.get(`${this.url}products/search?productname=${value}&page=${page}`);
   } 
+
+  searchOwnedProduct(value: string, page: number): Observable<Pageable> {
+    return <Observable<Pageable>> this.http.get(`${this.url}products/search-owned?productname=${value}&page=${page}`);
+  }
 
   rateTransporter(rating: number, _id: string): Observable<HttpResponse<Boolean>>{
     return <Observable<HttpResponse<Boolean>>> this.http.post(`${this.url}products/rate-transporter?rating=${rating}&_id=${_id}`, {}, {observe: 'response'});

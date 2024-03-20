@@ -5,6 +5,7 @@ import { ProductService } from '../services/product.service';
 import { ProductListing } from '../interfaces/product-listing';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-list-or-update-product',
@@ -18,6 +19,7 @@ export class ListOrUpdateProductComponent {
   product_image: File | string = "";
   product_id: string = ""; 
   type: string = "add";
+  interval = setTimeout(() => {}, 0);
 
 
   formResponse: FormGroup = this.fb.group({
@@ -29,7 +31,8 @@ export class ListOrUpdateProductComponent {
   })
 
   constructor(public dialogRef: MatDialogRef<ListOrUpdateProductComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {product: ProductListing, type: string} | null, private fb: FormBuilder, private productService: ProductService, private router: Router) {}
+    @Inject(MAT_DIALOG_DATA) public data: {product: ProductListing, type: string} | null, private fb: FormBuilder, 
+    private productService: ProductService, private router: Router, private al: AlertService) {}
 
   addFile($event: any){
     this.product_image = $event.target.files[0];
@@ -66,15 +69,17 @@ export class ListOrUpdateProductComponent {
       this.listProductApi = this.productService.listProduct(formData)
       .subscribe({
         next: (response) => {
-          window.location.reload();
+          this.al.alertPrompt("Listed Product", `Product ${this.formResponse.value.product_name} was listed succesfully`, "success");
+          clearTimeout(this.interval);
+          this.interval = setTimeout(() => this.dialogRef.close(), 1800);
         },
         error: (err) => {
-          alert(err.error)
+          this.al.alertPrompt("Error", err.error, "error");
         }
       })
     }
     else{
-      alert("Check inputs!");
+      this.al.alertPrompt("Invalid inputs", "Please check inputs provided!", "error");
     }
   }
 
@@ -93,15 +98,18 @@ export class ListOrUpdateProductComponent {
       this.updateProductApi = this.productService.updateProductListing(formData)
       .subscribe({
         next: (response) => {
-          window.location.reload();
+          this.al.alertPrompt("Updated Product", `Product ${this.formResponse.value.product_name} was updated succesfully`, "success");
+          clearTimeout(this.interval);
+          this.interval = setTimeout(() => this.dialogRef.close(), 1800);
+          
         },
         error: (err) => {
-          alert(err.error)
+          this.al.alertPrompt("Error", err.error, "error");
         }
       })
     }
     else{
-      alert("Check inputs!");
+      this.al.alertPrompt("Invalid inputs", "Please check inputs provided!", "error");
     }
   }
 
@@ -109,10 +117,12 @@ export class ListOrUpdateProductComponent {
     this.deleteProductApi = this.productService.deleteProductListing(this.product_id)
       .subscribe({
         next: (response) => {
-          window.location.reload();
+          this.al.alertPrompt("Deleted Product", `Product ${this.formResponse.value.product_name} was deleted succesfully`, "success");
+          clearTimeout(this.interval);
+          this.interval = setTimeout(() => this.dialogRef.close(), 1800);
         },
         error: (err) => {
-          alert(err.error)
+          this.al.alertPrompt("Error", err.error, "error");
         }
       })
   }
@@ -121,5 +131,6 @@ export class ListOrUpdateProductComponent {
     this.listProductApi.unsubscribe();
     this.updateProductApi.unsubscribe();
     this.deleteProductApi.unsubscribe();
+    window.location.reload();
   }
 }

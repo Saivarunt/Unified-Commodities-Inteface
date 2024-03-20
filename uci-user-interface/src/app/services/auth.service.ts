@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginResponse } from '../interfaces/login-response';
 
@@ -10,6 +10,14 @@ import { LoginResponse } from '../interfaces/login-response';
 export class AuthService {
   public url: string = environment.baseurl;
   isLoggedIn: boolean = sessionStorage.getItem("logged_in") === "true";
+
+  
+  public permissionsShared = new BehaviorSubject<any>([]);
+  observeValues = this.permissionsShared.asObservable();
+
+  changeValues(data: any) { 
+    this.permissionsShared.next(data);
+  }
 
   constructor(private http: HttpClient) { }
 

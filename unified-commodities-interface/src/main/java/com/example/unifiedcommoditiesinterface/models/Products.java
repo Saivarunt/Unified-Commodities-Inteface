@@ -1,5 +1,7 @@
 package com.example.unifiedcommoditiesinterface.models;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
@@ -30,4 +32,6 @@ public class Products {
     private String product_image;
 
     private String transportation_type;
+
+    private Date date_posted;
 }

@@ -13,4 +13,6 @@ public interface TransportationalRequestsService {
     public Page<ListTransportationalRequest> fetchTransportationalRequests(Integer page);
     public Page<ListTransportationalRequest> fetchRequestsMade(Integer page, User user);
     public ListTransportationalRequest fetchTransportationalRequestsById(String _id);
+    public Page<ListTransportationalRequest> fetchLatestTransportationalRequests(Integer page);
+    public Page<ListTransportationalRequest> searchAllRequests(String searchValue, Integer page);
 }

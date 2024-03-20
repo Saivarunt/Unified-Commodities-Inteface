@@ -2,24 +2,23 @@
     <div class="image-container">
         <label for="product-image">Product Image:</label> <br>
         <img [src]="productInterest.product_image" alt="">
-        <br>
     </div>
 
     <div class="form-container">
         <form [formGroup]="formResponse" (ngSubmit)="purchase()">
 
+            <div class="product-name">
+                <p>Product Name: {{productInterest.product_name}}</p>   
+            </div>
+            
             <div class="details-container">
-                <label for="product-name">Product Name: </label>  <br>
-                <input type="text" name="product-name" id="product-name" [value]="productInterest.product_name" disabled>
-                <br>
         
-                <label for="quantity">Quantity  (in Kg): </label> <br>
-                <input type="number" name="quantity" id="quantity" formControlName = "quantity" (input)="purchasePrice()" required>
-                <br>
+                <label for="quantity">Quantity  (in Kg): </label>
+                <input type="number" name="quantity" id="quantity" formControlName = "quantity" placeholder="Enter quantity required" (input)="purchasePrice()" required>
         
                 
                 <div *ngIf="productInterest.transportation_type !== 'Self'">
-                    <label>Transportation Type</label> <br>
+                    <label>Transportation Type</label>
                     <select name="transportation-type" id="transportation-type" formControlName = "transportation_type">
                         <option default>Select Transportation Type</option>
                         <option value="Self">Self</option>
@@ -29,13 +28,14 @@
                 </div>
             </div>
             
+            <p>Price: <span> {{price}} </span></p> 
+            
             <div class="button-container">
                 <button mat-raised-button type="submit" mat-dialog-close>Buy</button>
             </div>
         </form>
     </div>
 
-    <p>Price: <span> <input [(ngModel)]="price" [value]="price" disabled=""> </span></p> 
-    <button mat-raised-button mat-dialog-close>Close</button>
+    <button mat-raised-button mat-dialog-close (click)="dialogueClosed()">Close</button>
 
 </div>

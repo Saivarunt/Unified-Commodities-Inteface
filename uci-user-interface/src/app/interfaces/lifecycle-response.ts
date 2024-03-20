@@ -7,5 +7,6 @@ export interface LifecycleResponse {
     "quantity": number,
     "supplier_status": string,
     "consumer_status": string
+    "created_at": string
 }
 

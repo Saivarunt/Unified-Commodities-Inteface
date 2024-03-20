@@ -15,6 +15,7 @@ import { AdminAccessDirective } from '../directives/admin-access.directive';
 import {MatTableModule} from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { PermissionDirective } from '../directives/permission.directive';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({

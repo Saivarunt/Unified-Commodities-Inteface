@@ -21,4 +21,6 @@ public class ListTransportationalRequest {
     private Double quantity;
     
     private String status;
+
+    private String posted_at;
 }

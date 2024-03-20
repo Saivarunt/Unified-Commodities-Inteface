@@ -1,8 +1,12 @@
 <nav>
     <div>    
         <img src="assets/uci.png">
-        <p class="uci-header">UCI</p>
+        <p class="uci-header" appAdminAccess>UCI</p>
+        <p class="uci-header" appSupplierAccess>UCI - Supplier</p>
+        <p class="uci-header" appConsumerAccess>UCI - Consumer</p>
+        <p class="uci-header" appTransporterAccess>UCI - Transporter</p>
     </div>
+
     <div>
         <a routerLink="/home" appAdminAccess> Home </a>
 
@@ -35,12 +39,12 @@
                 <br>
                 <label for="fullname">Full name:</label> <br>
                 <mat-form-field>
-                <input matInput type="text" id="fullname" name="fullname" formControlName= "full_name" required> 
+                <input matInput type="text" id="fullname" name="fullname" placeholder="Enter Fullname" formControlName= "full_name" required> 
                 </mat-form-field>
                 <br>
                 <label for="organization">Organization:</label> <br>
                 <mat-form-field>
-                <input matInput type="text" id="organization" name="organization" formControlName= "organization" required> 
+                <input matInput type="text" id="organization" name="organization" placeholder="Enter organization" formControlName= "organization" required> 
                 </mat-form-field>
                 <br>
                 <label for="email">Email ID:</label> <br>
@@ -50,7 +54,7 @@
                 <br>
                 <label for="phonenumber">Phone Number:</label> <br>
                 <mat-form-field>
-                <input matInput type="number" id="phonenumber" name="phonenumber" formControlName= "phone_number" required>
+                <input matInput type="number" id="phonenumber" name="phonenumber" placeholder="Enter Phone number" formControlName= "phone_number" required>
                 </mat-form-field>
                 <br>
             </div>
@@ -62,27 +66,27 @@
                 <label for="city">City:</label> <br>
     
                 <mat-form-field>
-                    <input matInput type="text" id="city" name="city" formControlName= "city" required> 
+                    <input matInput type="text" id="city" name="city" placeholder="Enter city" formControlName= "city" required> 
                 </mat-form-field>
                 <br>
                 <label for="state">State:</label> <br>
                 <mat-form-field>
-                <input matInput type="text" id="state" name="state" formControlName= "state" required>
+                <input matInput type="text" id="state" name="state" placeholder="Enter state" formControlName= "state" required>
                 </mat-form-field>
                 <br>
                 <label for="country">Country:</label> <br>
                 <mat-form-field>
-                    <input matInput type="text" id="country" name="country" formControlName= "country" required> 
+                    <input matInput type="text" id="country" name="country" placeholder="Enter country" formControlName= "country" required> 
                 </mat-form-field>
                 <br>
                 <label for="primary-address">Primary Address:</label> <br>
                 <mat-form-field>
-                    <input matInput type="text" id="primary-address" name="primaryaddress" formControlName= "primary_address" required>
+                    <input matInput type="text" id="primary-address" name="primaryaddress" placeholder="Enter primary address" formControlName= "primary_address" required>
                 </mat-form-field>
                 <br>
                 <label for="postalcode">Postal Code:</label> <br>
                 <mat-form-field>
-                    <input matInput type="text" id="postalcode" name="postalcode" formControlName= "postal_code" required> 
+                    <input matInput type="text" id="postalcode" name="postalcode" placeholder="Enter postal code" formControlName= "postal_code" required> 
                 </mat-form-field>
                 <br>
 
@@ -94,41 +98,48 @@
     
     
             <div class="stats-container" *ngIf="!consumer">
-
-                <label for="delivery-count">Delivery Count:</label> <br>
-
-                <mat-form-field>
-                <input matInput type="text" id="delivery-count" name="delivery_count" [value]="profile?.delivery_count" disabled>
-                </mat-form-field>
                 <br>
+                <div class="metrics">
+                    <p>Delivery Count: {{ profile?.delivery_count }}</p>
+                    <br>
+    
+                    <p>Rating: {{profile?.rating}}</p>
 
-                <label for="rating">Rating:</label> <br>
-                <mat-form-field>
-                <input matInput type="text" id="rating" name="rating" [value]="profile?.rating" disabled> 
-                </mat-form-field>
-                <br>
+                </div>
 
                 <!-- subscription -->
-                <div class="subscription-container" *ngIf="supplier && (profile?.subscription === null || profile?.subscription === undefined)">
+                <div class="subscription-container" appSupplierAccess *ngIf="profile?.subscription === null || profile?.subscription === undefined">
                     <label>{{subscription_type}}</label> <br>
         
-                    <label for="period">Period:</label> <br>
-                    <select name="period" id="period" formControlName = "period" (change)="payment($event, 'SUPPLIER')">
-                        <option default>Select a period</option>
-                        <option value="Monthly">Monthly</option>
-                        <option value="Yearly">Yearly</option>
-                    </select> 
+                    <div class="subscription-plans">
+                        <p>Monthly Subscription: Rs.300</p>
+                        <p>Yearly Subscription: Rs.3000</p>
+                        
+                        
+                        <label for="period">Select period of subscription preference:</label> <br> <br>
+                        <select name="period" id="period" formControlName = "period" (change)="payment($event, 'SUPPLIER')">
+                            <option default>Select a period</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Yearly">Yearly</option>
+                        </select> 
+                        <br>
+                    </div>
                 </div>
         
-                <div class="subscription-container" *ngIf="transporter && (profile?.subscription === null || profile?.subscription === undefined)">
+                <div class="subscription-container" appTransporterAccess *ngIf="profile?.subscription === null || profile?.subscription === undefined">
                     <label>{{subscription_type}}</label> <br>
-        
-                    <label for="period">Period:</label>
-                    <select name="period" id="period" formControlName = "period" (change)="payment($event, 'TRANSPORTER')">
-                        <option default>Select a period</option>
-                        <option value="Monthly">Monthly</option>
-                        <option value="Yearly">Yearly</option>
-                    </select> 
+
+                    <div class="subscription-plans">
+                        <p>Monthly Subscription: Rs.160</p>
+                        <p>Yearly Subscription: Rs.1800</p>
+                        
+                        <label for="period">Select period of subscription preference:</label>
+                        <select name="period" id="period" formControlName = "period" (change)="payment($event, 'TRANSPORTER')">
+                            <option default>Select a period</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Yearly">Yearly</option>
+                        </select> 
+                    </div>
                 </div>
             </div>
 

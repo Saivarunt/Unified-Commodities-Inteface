@@ -16,4 +16,5 @@ public interface TransporterProposalService {
     public Boolean approveTransporterProposal(String _id);
     public Boolean rejectTransporterProposal(String _id);
     public Page<TransporterProposal> findAllProposals(Integer page);
+    public Page<TransporterProposal> searchAllProposals(String searchValue, Integer page);
 }
