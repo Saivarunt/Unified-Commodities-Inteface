@@ -9,4 +9,3 @@ export interface LifecycleResponse {
     "consumer_status": string
     "created_at": string
 }
-

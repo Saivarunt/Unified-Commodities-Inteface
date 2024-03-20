@@ -20,7 +20,7 @@ import { AlertService } from '../services/alert.service';
 })
 export class ConsumerHomeComponent {
 
-  viewProductsApi: Subscription  = new Subscription();
+  viewProductsApi: Subscription = new Subscription();
   searchApi: Subscription = new Subscription();
   products: ProductListing[] = [];
   interest: ProductListing | {} = {};
@@ -29,7 +29,7 @@ export class ConsumerHomeComponent {
   pageSize: number = 10;
   search: string = "";
 
-  constructor(private productService: ProductService, public dialog: MatDialog, private router: Router, private al: AlertService) {}
+  constructor(private productService: ProductService, public dialog: MatDialog, private router: Router, private al: AlertService) { }
 
   ngOnInit() {
     this.viewProducts(this.pageIndex);
@@ -37,16 +37,16 @@ export class ConsumerHomeComponent {
 
   viewProducts(page: number) {
     this.viewProductsApi = this.productService.viewAllProducts(page)
-    .subscribe({
-      next: (response) => {
-        this.products  = response.content;
-        this.pageSize = response.size;
-        this.totalElements = response.totalElements;
-      },
-      error: (err) => {
-        this.al.alertPrompt("Error", err.error, "error");;
-      }
-    })
+      .subscribe({
+        next: (response) => {
+          this.products = response.content;
+          this.pageSize = response.size;
+          this.totalElements = response.totalElements;
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");;
+        }
+      })
   }
 
   handlePageEvent(e: PageEvent) {
@@ -60,7 +60,7 @@ export class ConsumerHomeComponent {
       height: '55vh',
       enterAnimationDuration,
       exitAnimationDuration,
-      data: {product: this.interest}
+      data: { product: this.interest }
     });
   }
 
@@ -71,11 +71,11 @@ export class ConsumerHomeComponent {
     this.openPurchaseDialog('30ms', '30ms');
   }
 
-  trigger = this.debounce(() => {     
-    this.searchApi = this.productService.searchProduct(this.search,this.pageIndex > 0 ? 0 : this.pageIndex)
+  trigger = this.debounce(() => {
+    this.searchApi = this.productService.searchProduct(this.search, this.pageIndex > 0 ? 0 : this.pageIndex)
       .subscribe({
         next: (response) => {
-          this.products  = response.content;
+          this.products = response.content;
           this.pageSize = response.size;
           this.totalElements = response.totalElements;
         },
@@ -87,17 +87,17 @@ export class ConsumerHomeComponent {
 
 
   debounce(cb: Function, delay: number) {
-    let interval = setTimeout(() => {}, 0);
-    return (...args: any) =>{
-        clearTimeout(interval);
-        interval = setTimeout(() => {
-            cb(...args)
-        }, delay)
+    let interval = setTimeout(() => { }, 0);
+    return (...args: any) => {
+      clearTimeout(interval);
+      interval = setTimeout(() => {
+        cb(...args)
+      }, delay)
     }
   }
 
   searchProduct() {
-    if(this.search[this.search.length - 1] !== " "){
+    if (this.search[this.search.length - 1] !== " ") {
       this.trigger();
     }
   }

@@ -1,4 +1,4 @@
-export interface ProfileResponse{
+export interface ProfileResponse {
     "_id": string,
     "full_name": string,
     "organization": string,

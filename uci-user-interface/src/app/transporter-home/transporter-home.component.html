@@ -1,27 +1,38 @@
-
 <div class="container">
-        <div class="card" *ngFor="let request of listTransportRequests">
-            <div class="card-inner">
-                <div class="front">
-                    <img [src]="request.product.product_image">
-                    <p class="user-text-content">User: {{request.user.full_name}}</p><br>
-                    <p class="product-text-content">Product: {{request.product.product_name}}</p>
-                </div>
-                <div class="back">
-                        <p>Product Name: {{request.product.product_name}}</p>
-                        <p>Description: <a>{{request.product.description}}</a> </p>
-                        <p>Quantity: {{request.quantity}}</p>
-                        <p>Posted: {{request.posted_at}} ago</p>
-                        <button appPermission value="MAKE_TRANSPORTATION_PROPOSAL" (click)="makeProposal(request._id)">Make Proposal</button>
-                </div>
-            </div>
-        </div>
+  <div class="card" *ngFor="let request of listTransportRequests">
+    <div class="card-inner">
+      <div class="front">
+        <img [src]="request.product.product_image" />
+        <p class="user-text-content">User: {{ request.user.full_name }}</p>
+        <br />
+        <p class="product-text-content">
+          Product: {{ request.product.product_name }}
+        </p>
+      </div>
+      <div class="back">
+        <p>Product Name: {{ request.product.product_name }}</p>
+        <p>
+          Description: <a>{{ request.product.description }}</a>
+        </p>
+        <p>Quantity: {{ request.quantity }}</p>
+        <p>Posted: {{ request.posted_at }} ago</p>
+        <button
+          appPermission
+          value="MAKE_TRANSPORTATION_PROPOSAL"
+          (click)="makeProposal(request._id)"
+        >
+          Make Proposal
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
-
-<mat-paginator [length]="totalElements"
-              [pageSize]="pageSize"
-              (page)="handlePageEvent($event)"
-              [pageSizeOptions]="[10]"
-              aria-label="Select page">
+<mat-paginator
+  [length]="totalElements"
+  [pageSize]="pageSize"
+  (page)="handlePageEvent($event)"
+  [pageSizeOptions]="[10]"
+  aria-label="Select page"
+>
 </mat-paginator>

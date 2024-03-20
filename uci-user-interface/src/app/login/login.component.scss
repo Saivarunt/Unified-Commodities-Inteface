@@ -1,57 +1,57 @@
-.whole-container, .button-div {
-    display: flex;
-    justify-content: center;
+.whole-container,
+.button-div {
+  display: flex;
+  justify-content: center;
 }
 
 .login-container {
-    display: flex;
-    width: 20%;
-    justify-content: center;
-    margin: 200px;
-    padding: 50px;
-    border: 2px solid #eeeeee;
-    background-color: #accef7;
-    border-radius: 5px;
+  display: flex;
+  width: 20%;
+  justify-content: center;
+  margin: 200px;
+  padding: 50px;
+  border: 2px solid #eeeeee;
+  background-color: #accef7;
+  border-radius: 5px;
 }
 
 input {
-    margin-top: 10px;
-    margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
-.value-div{
-    display: grid;
-    align-items: center;
+.value-div {
+  display: grid;
+  align-items: center;
 }
 
-button{
-    cursor: pointer;
+button {
+  cursor: pointer;
 }
 .login-header {
-    display: flex;
-    font-size: 20px;
-    justify-content: center;
+  display: flex;
+  font-size: 20px;
+  justify-content: center;
 }
 
 .uci-header {
-    display: flex;
-    font-size: 25px;
-    justify-content: center;
+  display: flex;
+  font-size: 25px;
+  justify-content: center;
 }
 
 .info-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 img {
-    display: flex;
-    justify-content: center;
-    margin-left: 15px;
-    margin-right: 15px;
-    width: 50px;
-    height: 50px;
+  display: flex;
+  justify-content: center;
+  margin-left: 15px;
+  margin-right: 15px;
+  width: 50px;
+  height: 50px;
 }
-  

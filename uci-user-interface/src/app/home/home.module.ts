@@ -9,20 +9,17 @@ import { SupplierHomeComponent } from '../supplier-home/supplier-home.component'
 import { ConsumerHomeComponent } from '../consumer-home/consumer-home.component';
 import { TransporterHomeComponent } from '../transporter-home/transporter-home.component';
 import { RouterModule } from '@angular/router';
-import {MatTabsModule} from '@angular/material/tabs';
-import { ProfileComponent } from '../profile/profile.component';
+import { MatTabsModule } from '@angular/material/tabs';
 import { AdminAccessDirective } from '../directives/admin-access.directive';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { PermissionDirective } from '../directives/permission.directive';
-import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-    HomeComponent, 
-    SupplierAccessDirective, 
-    ConsumerAccessDirective, 
+    HomeComponent,
+    SupplierAccessDirective,
+    ConsumerAccessDirective,
     TransporterAccessDirective,
     AdminAccessDirective,
   ],
@@ -38,8 +35,8 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule
   ],
   exports: [
-    SupplierAccessDirective, 
-    ConsumerAccessDirective, 
+    SupplierAccessDirective,
+    ConsumerAccessDirective,
     TransporterAccessDirective,
     AdminAccessDirective,
   ]

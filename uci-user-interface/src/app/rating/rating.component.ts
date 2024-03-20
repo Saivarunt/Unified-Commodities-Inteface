@@ -24,46 +24,46 @@ export class RatingComponent {
   rating: number = 0;
 
   constructor(public dialogRef: MatDialogRef<RatingComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {lifecycle: LifecycleResponse}, private productService: ProductService, private router: Router, private al: AlertService) {}
+    @Inject(MAT_DIALOG_DATA) public data: { lifecycle: LifecycleResponse }, private productService: ProductService, private router: Router, private al: AlertService) { }
 
   setRating(value: number) {
-    this.rating = value; 
+    this.rating = value;
   }
 
   sendProductRating() {
     this.rateProductApi = this.productService.rateProduct(this.rating, this.data.lifecycle._id)
-    .subscribe({
-      next: (response) => {
+      .subscribe({
+        next: (response) => {
 
-        if(this.data.lifecycle.consumer !== this.data.lifecycle.transporter) {         
-          this.sendTransporterRating();
-        }
-        else{
-          this.dialogRef.close();
-        }
+          if (this.data.lifecycle.consumer !== this.data.lifecycle.transporter) {
+            this.sendTransporterRating();
+          }
+          else {
+            this.dialogRef.close();
+          }
 
-      },
-      error: (err) => {
-        this.al.alertPrompt("Error", err.error, "error");;
-      }
-    })
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");;
+        }
+      })
   }
 
   sendTransporterRating() {
     this.rateTransporterApi = this.productService.rateTransporter(this.rating, this.data.lifecycle._id)
-    .subscribe({
-      next: (response) => {
-        this.dialogRef.close();
-      },
-      error: (err) => {
-        this.al.alertPrompt("Error", err.error, "error");;
-      }
-    })
+      .subscribe({
+        next: (response) => {
+          this.dialogRef.close();
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");;
+        }
+      })
   }
-  
+
   ngOnDestroy() {
     this.rateTransporterApi.unsubscribe();
     this.rateProductApi.unsubscribe();
-    window.location.reload();    
+    window.location.reload();
   }
 }

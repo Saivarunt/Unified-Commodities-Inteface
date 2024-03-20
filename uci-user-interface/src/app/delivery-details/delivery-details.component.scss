@@ -11,8 +11,9 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
 }
-  
-.life-cycle th, .life-cycle td {
+
+.life-cycle th,
+.life-cycle td {
   border: 1px solid #eeeeee;
   padding: 12px;
   text-align: left;
@@ -46,5 +47,3 @@ button {
   border-radius: 4px;
   transition: background-color 0.3s;
 }
-  
-  

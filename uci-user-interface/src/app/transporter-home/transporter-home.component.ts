@@ -25,7 +25,7 @@ export class TransporterHomeComponent {
   viewAllRequestsApi: Subscription = new Subscription();
   makeTransportProposalApi: Subscription = new Subscription();
 
-  constructor(private transportationService: TransportationService, private router: Router, private al: AlertService) {}
+  constructor(private transportationService: TransportationService, private router: Router, private al: AlertService) { }
 
   ngOnInit() {
     this.transportRequests(this.pageIndex)
@@ -33,23 +33,23 @@ export class TransporterHomeComponent {
 
   transportRequests(page: number) {
     this.viewAllRequestsApi = this.transportationService.viewLatestRequests(page)
-    .subscribe({
-      next: (response) => {
-        this.listTransportRequests = response.content;
-        this.pageSize = response.size;
-        
-        this.listTransportRequests = this.listTransportRequests.filter((val) => {
-          return val.status !== "INITIATED";
-        });
-        
-        this.totalElements = this.listTransportRequests.length;
-      },
-      error: (err) => {
-        this.al.alertPrompt("Error", err.error, "error");
-      }
-    })
+      .subscribe({
+        next: (response) => {
+          this.listTransportRequests = response.content;
+          this.pageSize = response.size;
+
+          this.listTransportRequests = this.listTransportRequests.filter((val) => {
+            return val.status !== "INITIATED";
+          });
+
+          this.totalElements = this.listTransportRequests.length;
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");
+        }
+      })
   }
-  
+
   handlePageEvent(e: PageEvent) {
     this.pageIndex = e.pageIndex;
     this.transportRequests(this.pageIndex);
@@ -61,15 +61,15 @@ export class TransporterHomeComponent {
     })[0];
 
     this.makeTransportProposalApi = this.transportationService.makeTransportProposal(request_id)
-    .subscribe({
-      next: (response) => {
-        this.al.alertPrompt("Proposal Made", `Proposal was made for transport request ${request.product.product_name}`, "success")
-        this.router.navigate(['home/delivery-proposals'])
-      },
-      error: (err) => {
-        this.al.alertPrompt("Error", err.error, "error");;
-      }
-    })
+      .subscribe({
+        next: (response) => {
+          this.al.alertPrompt("Proposal Made", `Proposal was made for transport request ${request.product.product_name}`, "success")
+          this.router.navigate(['home/delivery-proposals'])
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");;
+        }
+      })
   }
 
   ngOnDestroy() {

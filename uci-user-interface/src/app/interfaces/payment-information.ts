@@ -1,6 +1,6 @@
 export interface PaymentInformation {
-    razorpay_payment_id: string, 
-    razorpay_order_id: string, 
+    razorpay_payment_id: string,
+    razorpay_order_id: string,
     razorpay_signature: string,
     amount: number
 }

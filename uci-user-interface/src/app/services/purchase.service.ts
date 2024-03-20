@@ -15,14 +15,14 @@ export class PurchaseService {
   constructor(private http: HttpClient) { }
 
   purchaseProduct(interest: PurchaseInfo): Observable<HttpResponse<PurchaseResponse>> {
-    return <Observable<HttpResponse<PurchaseResponse>>> this.http.post(`${this.url}purchase/make-purchase`, interest, {observe: 'response'});
+    return <Observable<HttpResponse<PurchaseResponse>>>this.http.post(`${this.url}purchase/make-purchase`, interest, { observe: 'response' });
   }
-  
+
   viewAllPurchases(page: number): Observable<Pageable> {
-    return <Observable<Pageable>> this.http.get(`${this.url}purchase/?page=${page}`)
+    return <Observable<Pageable>>this.http.get(`${this.url}purchase/?page=${page}`)
   }
 
   searchPurchase(search: string, page: number): Observable<Pageable> {
-    return <Observable<Pageable>> this.http.get(`${this.url}purchase/search?productName=${search}&page=${page}`)
+    return <Observable<Pageable>>this.http.get(`${this.url}purchase/search?productName=${search}&page=${page}`)
   }
 }

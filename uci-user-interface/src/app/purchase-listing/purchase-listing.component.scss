@@ -1,46 +1,47 @@
 .purchase-product {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #dae9ff;
-    padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #dae9ff;
+  padding: 25px;
 }
 
 .form-container p {
-    display: flex;
-    justify-content: center;
-    margin: 15px;
+  display: flex;
+  justify-content: center;
+  margin: 15px;
 }
 
-.button-container{
-    display: flex;
-    justify-content: center;
-    margin: 10px;
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
 }
 
 .details-container {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin: 10px;
 }
 
-.details-container label, .details-container input{
-    margin-bottom: 10px;
+.details-container label,
+.details-container input {
+  margin-bottom: 10px;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .details-container div {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
 }
 
-.product-name p{
-    font-size: 18px;
-    margin-bottom: 10px;
+.product-name p {
+  font-size: 18px;
+  margin-bottom: 10px;
 }

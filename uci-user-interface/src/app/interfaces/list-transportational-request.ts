@@ -10,7 +10,7 @@ export interface ListTransportationalRequest {
         "price": number,
         "quantity": number,
         "product_image": string,
-        "transportation_type": string 
+        "transportation_type": string
     },
     user: ProfileResponse,
     quantity: number,

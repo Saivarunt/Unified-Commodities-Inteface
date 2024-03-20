@@ -15,12 +15,12 @@ export class TransporterProposalsComponent {
   totalElements: number = 0;
   pageIndex: number = 0;
   pageSize: number = 20;
-  displayedColumns: string [] = ["Product Name", "Owner", "Organization", "Description", "Buyer", "Buyer Organization", "Quantity", "Transporter", "Transporter Organization", "Status",]
+  displayedColumns: string[] = ["Product Name", "Owner", "Organization", "Description", "Buyer", "Buyer Organization", "Quantity", "Transporter", "Transporter Organization", "Status",]
   viewAllProposalsApi: Subscription = new Subscription();
   searchApi: Subscription = new Subscription();
   search: string = "";
 
-  constructor(private transportationService: TransportationService, private al: AlertService) {}
+  constructor(private transportationService: TransportationService, private al: AlertService) { }
 
   ngOnInit() {
     this.transporterProposals(this.pageIndex)
@@ -28,33 +28,33 @@ export class TransporterProposalsComponent {
 
   transporterProposals(page: number) {
     this.viewAllProposalsApi = this.transportationService.viewAllProposals(page)
-    .subscribe({
-      next: (response) => {
-        this.proposals = response.content;
-        this.pageSize = response.size;
-        this.totalElements = response.totalElements;
-      },
-      error: (err) => {
-      this.al.alertPrompt("Error", err.error, "error");
-      }
-    })
+      .subscribe({
+        next: (response) => {
+          this.proposals = response.content;
+          this.pageSize = response.size;
+          this.totalElements = response.totalElements;
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");
+        }
+      })
   }
-  
+
   handlePageEvent(e: PageEvent) {
     this.pageIndex = e.pageIndex;
     this.transporterProposals(this.pageIndex);
   }
 
-  trigger = this.debounce(() => {     
+  trigger = this.debounce(() => {
     this.searchApi = this.transportationService.searchTransporter(this.search, this.pageIndex > 0 ? 0 : this.pageIndex)
       .subscribe({
         next: (response) => {
-          if(response !== null) {
-            this.proposals  = response.content;
+          if (response !== null) {
+            this.proposals = response.content;
             this.pageSize = response.size;
             this.totalElements = response.totalElements;
           }
-          else{
+          else {
             this.proposals = [];
           }
         },
@@ -66,17 +66,17 @@ export class TransporterProposalsComponent {
 
 
   debounce(cb: Function, delay: number) {
-    let interval = setTimeout(() => {}, 0);
-    return (...args: any) =>{
-        clearTimeout(interval);
-        interval = setTimeout(() => {
-            cb(...args)
-        }, delay)
+    let interval = setTimeout(() => { }, 0);
+    return (...args: any) => {
+      clearTimeout(interval);
+      interval = setTimeout(() => {
+        cb(...args)
+      }, delay)
     }
   }
 
   searchProduct() {
-    if(this.search[this.search.length - 1] !== " "){
+    if (this.search[this.search.length - 1] !== " ") {
       this.trigger();
     }
   }

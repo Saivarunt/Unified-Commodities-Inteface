@@ -3,7 +3,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  
 }
 .products {
   border-collapse: collapse;
@@ -12,7 +11,8 @@
   display: flex;
 }
 
-.products th, .products td {
+.products th,
+.products td {
   border: 1px solid #eeeeee;
   padding: 12px;
   text-align: left;

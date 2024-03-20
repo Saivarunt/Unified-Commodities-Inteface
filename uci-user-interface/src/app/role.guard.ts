@@ -7,17 +7,17 @@ import { AuthService } from './services/auth.service';
   providedIn: 'root'
 })
 export class RoleGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      const requiredRoles = route.data['roles'];
+    const requiredRoles = route.data['roles'];
 
-      if (this.authService.hasRequiredRole(requiredRoles) ) {
-        return true;
-      }
-      
-      this.router.navigate(['unauthorized'])
-      return false;
+    if (this.authService.hasRequiredRole(requiredRoles)) {
+      return true;
+    }
+
+    this.router.navigate(['unauthorized'])
+    return false;
   }
 
 }

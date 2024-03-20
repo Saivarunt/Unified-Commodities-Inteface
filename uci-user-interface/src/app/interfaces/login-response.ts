@@ -1,5 +1,5 @@
 export interface LoginResponse {
-    "user":{
+    "user": {
         "_id": string,
         "username": string,
         "password": string,

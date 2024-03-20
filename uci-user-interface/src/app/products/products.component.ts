@@ -19,7 +19,7 @@ export class ProductsComponent {
   pageSize: number = 10;
   search: string = "";
 
-  constructor(private productService: ProductService, private al: AlertService) {}
+  constructor(private productService: ProductService, private al: AlertService) { }
 
   ngOnInit() {
     this.viewProducts(this.pageIndex);
@@ -27,16 +27,16 @@ export class ProductsComponent {
 
   viewProducts(page: number) {
     this.viewAllProductsApi = this.productService.viewAllProducts(page)
-    .subscribe({
-      next: (response) => {
-        this.products  = response.content;
-        this.pageSize = response.size;
-        this.totalElements = response.totalElements;
-      },
-      error: (err) => {
-        this.al.alertPrompt("Error", err.error, "error");;
-      }
-    })
+      .subscribe({
+        next: (response) => {
+          this.products = response.content;
+          this.pageSize = response.size;
+          this.totalElements = response.totalElements;
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");;
+        }
+      })
   }
 
   handlePageEvent(e: PageEvent) {
@@ -44,33 +44,33 @@ export class ProductsComponent {
     this.viewProducts(this.pageIndex);
   }
 
-  trigger = this.debounce(() => {     
-    this.searchApi = this.productService.searchProduct(this.search,this.pageIndex > 0 ? 0 : this.pageIndex)
-    .subscribe({
-      next: (response) => {
-        this.products  = response.content;
-        this.pageSize = response.size;
-        this.totalElements = response.totalElements;
-      },
-      error: (err) => {
-        this.al.alertPrompt("Error", err.error, "error");;
-      }
-    });
+  trigger = this.debounce(() => {
+    this.searchApi = this.productService.searchProduct(this.search, this.pageIndex > 0 ? 0 : this.pageIndex)
+      .subscribe({
+        next: (response) => {
+          this.products = response.content;
+          this.pageSize = response.size;
+          this.totalElements = response.totalElements;
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");;
+        }
+      });
   }, 1000)
 
 
   debounce(cb: Function, delay: number) {
-    let interval = setTimeout(() => {}, 0);
-    return (...args: any) =>{
-        clearTimeout(interval);
-        interval = setTimeout(() => {
-            cb(...args)
-        }, delay)
+    let interval = setTimeout(() => { }, 0);
+    return (...args: any) => {
+      clearTimeout(interval);
+      interval = setTimeout(() => {
+        cb(...args)
+      }, delay)
     }
   }
 
   searchProduct() {
-    if(this.search[this.search.length - 1] !== " "){
+    if (this.search[this.search.length - 1] !== " ") {
       this.trigger();
     }
   }

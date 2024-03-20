@@ -16,17 +16,17 @@ import { AlertService } from '../services/alert.service';
   styleUrls: ['./delivery-proposals.component.scss']
 })
 export class DeliveryProposalsComponent {
-  fetchRequestDetailsApi: Subscription  = new Subscription();
+  fetchRequestDetailsApi: Subscription = new Subscription();
   fetchProposalsMadeApi: Subscription = new Subscription();
-  madeProposals: TransportProposalListing[] | [] = [] ;
+  madeProposals: TransportProposalListing[] | [] = [];
   requestInfo!: ListTransportationalRequest;
-  proposalsByRequest: {proposal: TransportProposalListing, request: ListTransportationalRequest}[] = [];
+  proposalsByRequest: { proposal: TransportProposalListing, request: ListTransportationalRequest }[] = [];
 
   totalElements: number = 0;
   pageIndex: number = 0;
   pageSize: number = 10;
 
-  constructor(private transportationService: TransportationService, private al: AlertService) {}
+  constructor(private transportationService: TransportationService, private al: AlertService) { }
 
   ngOnInit() {
     this.fetchProposalsMade(this.pageIndex);
@@ -37,33 +37,33 @@ export class DeliveryProposalsComponent {
       .subscribe({
         next: (response) => {
           this.requestInfo = response;
-          this.proposalsByRequest = this.proposalsByRequest?.concat(({proposal, request: this.requestInfo}))
+          this.proposalsByRequest = this.proposalsByRequest?.concat(({ proposal, request: this.requestInfo }))
         },
         error: (err) => {
           this.al.alertPrompt("Error", err.error, "error");
         }
       })
   }
-  
+
   fetchProposalsMade(page: number) {
     this.fetchProposalsMadeApi = this.transportationService.viewMadeProposals(page)
-    .subscribe({
-      next: (response) => {
-        this.madeProposals = response.content;
-        this.pageSize = response.size;
-        this.totalElements = response.totalElements;
-        
-        this.madeProposals.forEach((val) => {
-          this.fetchRequestDetails(val, val.request_id);
-        })
+      .subscribe({
+        next: (response) => {
+          this.madeProposals = response.content;
+          this.pageSize = response.size;
+          this.totalElements = response.totalElements;
 
-      },
-      error: (err) => {
-        this.al.alertPrompt("Error", err.error, "error");;
-      }
-    })
+          this.madeProposals.forEach((val) => {
+            this.fetchRequestDetails(val, val.request_id);
+          })
+
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");;
+        }
+      })
   }
-  
+
   handlePageEvent(e: PageEvent) {
     this.pageIndex = e.pageIndex;
     this.fetchProposalsMade(this.pageIndex);

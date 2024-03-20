@@ -1,41 +1,53 @@
-<div class="purchase-product" >
-    <div class="image-container">
-        <label for="product-image">Product Image:</label> <br>
-        <img [src]="productInterest.product_image" alt="">
-    </div>
+<div class="purchase-product">
+  <div class="image-container">
+    <label for="product-image">Product Image:</label> <br />
+    <img [src]="productInterest.product_image" alt="" />
+  </div>
 
-    <div class="form-container">
-        <form [formGroup]="formResponse" (ngSubmit)="purchase()">
+  <div class="form-container">
+    <form [formGroup]="formResponse" (ngSubmit)="purchase()">
+      <div class="product-name">
+        <p>Product Name: {{ productInterest.product_name }}</p>
+      </div>
 
-            <div class="product-name">
-                <p>Product Name: {{productInterest.product_name}}</p>   
-            </div>
-            
-            <div class="details-container">
-        
-                <label for="quantity">Quantity  (in Kg): </label>
-                <input type="number" name="quantity" id="quantity" formControlName = "quantity" placeholder="Enter quantity required" (input)="purchasePrice()" required>
-        
-                
-                <div *ngIf="productInterest.transportation_type !== 'Self'">
-                    <label>Transportation Type</label>
-                    <select name="transportation-type" id="transportation-type" formControlName = "transportation_type">
-                        <option default>Select Transportation Type</option>
-                        <option value="Self">Self</option>
-                        <option value="Support">Support</option>
-                    </select> 
-                    <br>
-                </div>
-            </div>
-            
-            <p>Price: <span> {{price}} </span></p> 
-            
-            <div class="button-container">
-                <button mat-raised-button type="submit" mat-dialog-close>Buy</button>
-            </div>
-        </form>
-    </div>
+      <div class="details-container">
+        <label for="quantity">Quantity (in Kg): </label>
+        <input
+          type="number"
+          name="quantity"
+          id="quantity"
+          formControlName="quantity"
+          placeholder="Enter quantity required"
+          (input)="purchasePrice()"
+          required
+        />
 
-    <button mat-raised-button mat-dialog-close (click)="dialogueClosed()">Close</button>
+        <div *ngIf="productInterest.transportation_type !== 'Self'">
+          <label>Transportation Type</label>
+          <select
+            name="transportation-type"
+            id="transportation-type"
+            formControlName="transportation_type"
+          >
+            <option default>Select Transportation Type</option>
+            <option value="Self">Self</option>
+            <option value="Support">Support</option>
+          </select>
+          <br />
+        </div>
+      </div>
 
+      <p>
+        Price: <span> {{ price }} </span>
+      </p>
+
+      <div class="button-container">
+        <button mat-raised-button type="submit" mat-dialog-close>Buy</button>
+      </div>
+    </form>
+  </div>
+
+  <button mat-raised-button mat-dialog-close (click)="dialogueClosed()">
+    Close
+  </button>
 </div>

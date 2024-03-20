@@ -1,25 +1,30 @@
 <div class="container">
-    <div class="card" *ngFor="let proposal of proposalsByRequest">
-        <div class="card-inner">
-            <div class="front">
-                <img [src]="proposal.request.product.product_image">
-                <p class="product-text-content">Product Name: {{proposal.request.product.product_name}}</p>
-                <p class="status-text-content">Status: {{proposal.proposal.status}}</p>
-            </div>
-            <div class="back">
-                    <p>User's Name: {{proposal.request.user.full_name}}</p>
-                    <p>Product Name: {{proposal.request.product.product_name}}</p>
-                    <p>Quantity: {{proposal.request.quantity}}</p>
-                    <p>Status: {{proposal.proposal.status}}</p>
-            </div>
-        </div>
+  <div class="card" *ngFor="let proposal of proposalsByRequest">
+    <div class="card-inner">
+      <div class="front">
+        <img [src]="proposal.request.product.product_image" />
+        <p class="product-text-content">
+          Product Name: {{ proposal.request.product.product_name }}
+        </p>
+        <p class="status-text-content">
+          Status: {{ proposal.proposal.status }}
+        </p>
+      </div>
+      <div class="back">
+        <p>User's Name: {{ proposal.request.user.full_name }}</p>
+        <p>Product Name: {{ proposal.request.product.product_name }}</p>
+        <p>Quantity: {{ proposal.request.quantity }}</p>
+        <p>Status: {{ proposal.proposal.status }}</p>
+      </div>
     </div>
+  </div>
 </div>
 
-
-<mat-paginator [length]="totalElements"
-              [pageSize]="pageSize"
-              (page)="handlePageEvent($event)"
-              [pageSizeOptions]="[10]"
-              aria-label="Select page">
+<mat-paginator
+  [length]="totalElements"
+  [pageSize]="pageSize"
+  (page)="handlePageEvent($event)"
+  [pageSizeOptions]="[10]"
+  aria-label="Select page"
+>
 </mat-paginator>

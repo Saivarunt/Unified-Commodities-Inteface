@@ -1,31 +1,48 @@
 <div class="container">
-    <div class="card" *ngFor="let proposal of proposals">
-        <div class="card-inner">
-            <div class="front">
-                <img [src]="proposal.request.product.product_image">
-                <p class="name-text-content">Transporter: {{proposal.proposal.profile.full_name}}</p>
-                <p class="product-text-content">Product: {{proposal.request.product.product_name}}</p>
-            </div>
-            <div class="back">
-                    <img [src]="proposal.proposal.profile.profile_image">
-                    <p>Transporter Name: {{proposal.proposal.profile.full_name}}</p>
-                    <p>Email: <a>{{proposal.proposal.profile.email}}</a> </p>
-                    <p>Organization: {{proposal.proposal.profile.organization}}</p>
-                    <p>Phone Number: {{proposal.proposal.profile.phone_number}}</p>
-                    <p>Rating: {{proposal.proposal.profile.rating}}</p>
+  <div class="card" *ngFor="let proposal of proposals">
+    <div class="card-inner">
+      <div class="front">
+        <img [src]="proposal.request.product.product_image" />
+        <p class="name-text-content">
+          Transporter: {{ proposal.proposal.profile.full_name }}
+        </p>
+        <p class="product-text-content">
+          Product: {{ proposal.request.product.product_name }}
+        </p>
+      </div>
+      <div class="back">
+        <img [src]="proposal.proposal.profile.profile_image" />
+        <p>Transporter Name: {{ proposal.proposal.profile.full_name }}</p>
+        <p>
+          Email: <a>{{ proposal.proposal.profile.email }}</a>
+        </p>
+        <p>Organization: {{ proposal.proposal.profile.organization }}</p>
+        <p>Phone Number: {{ proposal.proposal.profile.phone_number }}</p>
+        <p>Rating: {{ proposal.proposal.profile.rating }}</p>
 
-                    <button mat-raised-button (click)="approveProposal(proposal.proposal._id)">Approve Proposal</button> <br>
-                    <button mat-raised-button (click)="rejectProposal(proposal.proposal._id)">Reject Proposal</button>
-
-            </div>
-        </div>
+        <button
+          mat-raised-button
+          (click)="approveProposal(proposal.proposal._id)"
+        >
+          Approve Proposal
+        </button>
+        <br />
+        <button
+          mat-raised-button
+          (click)="rejectProposal(proposal.proposal._id)"
+        >
+          Reject Proposal
+        </button>
+      </div>
     </div>
+  </div>
 </div>
 
-
-<mat-paginator [length]="totalElements"
-              [pageSize]="pageSize"
-              (page)="handlePageEvent($event)"
-              [pageSizeOptions]="[10]"
-              aria-label="Select page">
+<mat-paginator
+  [length]="totalElements"
+  [pageSize]="pageSize"
+  (page)="handlePageEvent($event)"
+  [pageSizeOptions]="[10]"
+  aria-label="Select page"
+>
 </mat-paginator>

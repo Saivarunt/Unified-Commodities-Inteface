@@ -19,7 +19,6 @@ import { DeliveryStatusComponent } from './delivery-status/delivery-status.compo
 import { MatButtonModule } from '@angular/material/button';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-import { PermissionDirective } from './directives/permission.directive';
 
 
 @NgModule({
@@ -46,7 +45,7 @@ import { PermissionDirective } from './directives/permission.directive';
     MatButtonModule,
     FontAwesomeModule
   ],
-  providers: [{provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor, multi:true}],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

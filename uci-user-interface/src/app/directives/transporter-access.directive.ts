@@ -6,11 +6,11 @@ import { AuthService } from '../services/auth.service';
 })
 export class TransporterAccessDirective {
 
-  
+
   constructor(private el: ElementRef, private authService: AuthService) { }
 
-  ngOnInit () {
-    this.el.nativeElement.style.display = !this.authService.hasRequiredRole(["TRANSPORTER"])? "none": "block";
+  ngOnInit() {
+    this.el.nativeElement.style.display = !this.authService.hasRequiredRole(["TRANSPORTER"]) ? "none" : "block";
   }
 
 }

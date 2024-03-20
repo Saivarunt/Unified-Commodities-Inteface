@@ -3,7 +3,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  
 }
 .transport-requests {
   border-collapse: collapse;
@@ -12,7 +11,8 @@
   display: flex;
 }
 
-.transport-requests th, .transport-requests td {
+.transport-requests th,
+.transport-requests td {
   border: 1px solid #eeeeee;
   padding: 12px;
   text-align: left;

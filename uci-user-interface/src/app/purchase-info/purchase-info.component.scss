@@ -3,7 +3,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  
 }
 .purchases {
   border-collapse: collapse;
@@ -12,7 +11,8 @@
   display: flex;
 }
 
-.purchases th, .purchases td {
+.purchases th,
+.purchases td {
   border: 1px solid #eeeeee;
   padding: 12px;
   text-align: left;

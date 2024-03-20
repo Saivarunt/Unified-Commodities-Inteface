@@ -26,7 +26,7 @@ export class DeliveryDetailsComponent {
   status: string = "";
   lifecycle_id: string = "";
 
-  constructor(private productService: ProductService,  public dialog: MatDialog, private al: AlertService) {}
+  constructor(private productService: ProductService, public dialog: MatDialog, private al: AlertService) { }
 
   ngOnInit() {
     this.deliveryInfo(this.pageIndex);
@@ -34,21 +34,21 @@ export class DeliveryDetailsComponent {
 
   deliveryInfo(page: number) {
     this.deliveryInfoApi = this.productService.viewLifecycle(page)
-    .subscribe({
-      next: (response) => {
-        if(response !== null) {
-          this.lifecycles = response.content;
-          this.pageSize = response.size;
-          this.totalElements = response.totalElements;
+      .subscribe({
+        next: (response) => {
+          if (response !== null) {
+            this.lifecycles = response.content;
+            this.pageSize = response.size;
+            this.totalElements = response.totalElements;
+          }
+          else {
+            this.lifecycles = response;
+          }
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");;
         }
-        else {
-          this.lifecycles = response;
-        }
-      },
-      error: (err) => {
-        this.al.alertPrompt("Error", err.error, "error");;
-      }
-    })
+      })
   }
 
   handlePageEvent(e: PageEvent) {
@@ -62,7 +62,7 @@ export class DeliveryDetailsComponent {
       height: '40vh',
       enterAnimationDuration,
       exitAnimationDuration,
-      data: {status: this.status, lifecycle: this.lifecycles.filter((val) => val._id === this.lifecycle_id)[0]}
+      data: { status: this.status, lifecycle: this.lifecycles.filter((val) => val._id === this.lifecycle_id)[0] }
     });
   }
 

@@ -1,5 +1,4 @@
-export interface Pageable 
-{
+export interface Pageable {
     "content": [],
     "pageable": {
         "pageNumber": number,

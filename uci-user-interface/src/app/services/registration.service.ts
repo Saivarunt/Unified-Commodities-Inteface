@@ -13,18 +13,18 @@ export class RegistrationService {
 
   constructor(private http: HttpClient) { }
 
-  registerSupplier(username: string | null | undefined, email: string | null | undefined, password: string | null | undefined): Observable<HttpResponse<RegistrationResponse>>{
-    
-    return <Observable<HttpResponse<RegistrationResponse>>> this.http.post(`${this.url}auth/supplier-registration`, {username,email,password}, {observe:'response'});
+  registerSupplier(username: string | null | undefined, email: string | null | undefined, password: string | null | undefined): Observable<HttpResponse<RegistrationResponse>> {
+
+    return <Observable<HttpResponse<RegistrationResponse>>>this.http.post(`${this.url}auth/supplier-registration`, { username, email, password }, { observe: 'response' });
   }
 
-  registerConsumer(username: string | null | undefined, email: string | null | undefined, password: string | null | undefined): Observable<HttpResponse<RegistrationResponse>>{
-    
-    return <Observable<HttpResponse<RegistrationResponse>>> this.http.post(`${this.url}auth/consumer-registration`, {username,email,password}, {observe:'response'});
+  registerConsumer(username: string | null | undefined, email: string | null | undefined, password: string | null | undefined): Observable<HttpResponse<RegistrationResponse>> {
+
+    return <Observable<HttpResponse<RegistrationResponse>>>this.http.post(`${this.url}auth/consumer-registration`, { username, email, password }, { observe: 'response' });
   }
 
-  registerTransporter(username: string | null | undefined, email: string | null | undefined, password: string | null | undefined): Observable<HttpResponse<RegistrationResponse>>{
-    
-    return <Observable<HttpResponse<RegistrationResponse>>> this.http.post(`${this.url}auth/transporter-registration`, {username,email,password}, {observe:'response'});
+  registerTransporter(username: string | null | undefined, email: string | null | undefined, password: string | null | undefined): Observable<HttpResponse<RegistrationResponse>> {
+
+    return <Observable<HttpResponse<RegistrationResponse>>>this.http.post(`${this.url}auth/transporter-registration`, { username, email, password }, { observe: 'response' });
   }
 }

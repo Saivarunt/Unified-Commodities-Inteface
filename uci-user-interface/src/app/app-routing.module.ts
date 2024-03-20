@@ -7,19 +7,19 @@ import { RoleGuard } from './role.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 const routes: Routes = [
-  {path:"login", component: LoginComponent},
-  {path:"", redirectTo:'login', pathMatch:'full'},
-  {path:"register", component: RegistrationComponent},
-  {path:"unauthorized", component: UnauthorizedComponent},
+  { path: "login", component: LoginComponent },
+  { path: "", redirectTo: 'login', pathMatch: 'full' },
+  { path: "register", component: RegistrationComponent },
+  { path: "unauthorized", component: UnauthorizedComponent },
   {
-    path:"profile", loadComponent: () => 
-    import("./profile/profile.component")
-    .then(out => out.ProfileComponent) , canActivate: [AuthGuard, RoleGuard], data: {'roles': ['ADMIN', 'SUPPLIER', 'CONSUMER', 'TRANSPORTER']}
+    path: "profile", loadComponent: () =>
+      import("./profile/profile.component")
+        .then(out => out.ProfileComponent), canActivate: [AuthGuard, RoleGuard], data: { 'roles': ['ADMIN', 'SUPPLIER', 'CONSUMER', 'TRANSPORTER'] }
   },
   {
-    path:"home", loadChildren: () => 
+    path: "home", loadChildren: () =>
       import('./home/home.module')
-      .then(out => out.HomeModule), canActivate: [AuthGuard, RoleGuard], data: {'roles': ['ADMIN', 'SUPPLIER', 'CONSUMER', 'TRANSPORTER']}
+        .then(out => out.HomeModule), canActivate: [AuthGuard, RoleGuard], data: { 'roles': ['ADMIN', 'SUPPLIER', 'CONSUMER', 'TRANSPORTER'] }
   }
 ];
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../services/product.service';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ListOrUpdateProductComponent } from '../list-or-update-product/list-or-update-product.component';
 import { ProductListing } from '../interfaces/product-listing';
@@ -30,7 +30,7 @@ export class SupplierHomeComponent {
   pageSize: number = 10;
   search: string = "";
 
-  constructor(private productService: ProductService, public dialog: MatDialog, private al: AlertService) {}
+  constructor(private productService: ProductService, public dialog: MatDialog, private al: AlertService) { }
 
   ngOnInit() {
     this.productsOwned(this.pageIndex);
@@ -52,7 +52,7 @@ export class SupplierHomeComponent {
       height: '50vh',
       enterAnimationDuration,
       exitAnimationDuration,
-      data: {product: this.interest, type: 'update'}
+      data: { product: this.interest, type: 'update' }
     });
   }
 
@@ -62,22 +62,22 @@ export class SupplierHomeComponent {
       height: '25vh',
       enterAnimationDuration,
       exitAnimationDuration,
-      data: {product: this.interest, type: 'delete'}
+      data: { product: this.interest, type: 'delete' }
     });
   }
 
   productsOwned(page: number) {
     this.viewProductsApi = this.productService.viewLatestProducts(page)
-    .subscribe({
-      next: (response) => {
-        this.products  = response.content;
-        this.pageSize = response.size;
-        this.totalElements = response.totalElements;
-      },
-      error: (err) => {
-        this.al.alertPrompt("Error", err.error, "error");;
-      }
-    })
+      .subscribe({
+        next: (response) => {
+          this.products = response.content;
+          this.pageSize = response.size;
+          this.totalElements = response.totalElements;
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");;
+        }
+      })
   }
 
   handlePageEvent(e: PageEvent) {
@@ -85,18 +85,18 @@ export class SupplierHomeComponent {
     this.productsOwned(this.pageIndex);
   }
 
-  makeNewListing () {
+  makeNewListing() {
     this.openListingDialog('30ms', '30ms');
   }
-  
-  updateListing(update_product_id: string) {   
+
+  updateListing(update_product_id: string) {
     this.interest = this.products.filter((product) => {
       return product._id === update_product_id;
     })[0];
     this.openUpdateDialog('30ms', '30ms');
   }
 
-  deleteListing(delete_product_id: string) {   
+  deleteListing(delete_product_id: string) {
     this.interest = this.products.filter((product) => {
       return product._id === delete_product_id;
     })[0];
@@ -104,33 +104,33 @@ export class SupplierHomeComponent {
   }
 
 
-  trigger = this.debounce(() => {     
+  trigger = this.debounce(() => {
     this.searchApi = this.productService.searchOwnedProduct(this.search, this.pageIndex > 0 ? 0 : this.pageIndex)
-    .subscribe({
-      next: (response) => {
-        this.products  = response.content;
-        this.pageSize = response.size;
-        this.totalElements = response.totalElements;
-      },
-      error: (err) => {
-        this.al.alertPrompt("Error", err.error, "error");;
-      }
-    });
+      .subscribe({
+        next: (response) => {
+          this.products = response.content;
+          this.pageSize = response.size;
+          this.totalElements = response.totalElements;
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");;
+        }
+      });
   }, 1000)
 
 
   debounce(cb: Function, delay: number) {
-    let interval = setTimeout(() => {}, 0);
-    return (...args: any) =>{
-        clearTimeout(interval);
-        interval = setTimeout(() => {
-            cb(...args)
-        }, delay)
+    let interval = setTimeout(() => { }, 0);
+    return (...args: any) => {
+      clearTimeout(interval);
+      interval = setTimeout(() => {
+        cb(...args)
+      }, delay)
     }
   }
 
   searchProduct() {
-    if(this.search[this.search.length - 1] !== " "){
+    if (this.search[this.search.length - 1] !== " ") {
       this.trigger();
     }
   }

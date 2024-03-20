@@ -1,25 +1,24 @@
 <div *ngIf="data.status === 'Supplier'" class="container">
-    <p>Update status of transaction</p>
-    <p>Product: {{data.lifecycle.product}}</p>
-    <p>Supplier: {{data.lifecycle.supplier}}</p>
-    <p>Consumer: {{data.lifecycle.consumer}}</p>
-    <p>Transporter: {{data.lifecycle.transporter}}</p>
-    <p>Quantity: {{data.lifecycle.quantity}}</p>
-    <button mat-raised-button (click)="updateStatus()">Delivered to Transporter</button>
-    <button mat-dialog-close mat-raised-button>Close</button>
-
+  <p>Update status of transaction</p>
+  <p>Product: {{ data.lifecycle.product }}</p>
+  <p>Supplier: {{ data.lifecycle.supplier }}</p>
+  <p>Consumer: {{ data.lifecycle.consumer }}</p>
+  <p>Transporter: {{ data.lifecycle.transporter }}</p>
+  <p>Quantity: {{ data.lifecycle.quantity }}</p>
+  <button mat-raised-button (click)="updateStatus()">
+    Delivered to Transporter
+  </button>
+  <button mat-dialog-close mat-raised-button>Close</button>
 </div>
 
+<div *ngIf="data.status === 'Consumer'" class="container">
+  <p>Update status of transaction</p>
+  <p>Product: {{ data.lifecycle.product }}</p>
+  <p>Supplier: {{ data.lifecycle.supplier }}</p>
+  <p>Consumer: {{ data.lifecycle.consumer }}</p>
+  <p>Transporter: {{ data.lifecycle.transporter }}</p>
+  <p>Quantity: {{ data.lifecycle.quantity }}</p>
 
-<div *ngIf="data.status === 'Consumer'"  class="container">
-    <p>Update status of transaction</p>
-    <p>Product: {{data.lifecycle.product}}</p>
-    <p>Supplier: {{data.lifecycle.supplier}}</p>
-    <p>Consumer: {{data.lifecycle.consumer}}</p>
-    <p>Transporter: {{data.lifecycle.transporter}}</p>
-    <p>Quantity: {{data.lifecycle.quantity}}</p>
-
-    <button mat-raised-button (click)="updateStatus()">Delivery recieved</button>
-    <button mat-dialog-close mat-raised-button>Close</button>
-
+  <button mat-raised-button (click)="updateStatus()">Delivery recieved</button>
+  <button mat-dialog-close mat-raised-button>Close</button>
 </div>

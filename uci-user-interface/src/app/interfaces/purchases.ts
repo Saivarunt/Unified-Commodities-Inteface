@@ -3,7 +3,7 @@ import { UserInfo } from "./user-info"
 
 export interface Purchases {
     _id: string,
-    product: Products ,
+    product: Products,
     buyer: UserInfo
     quantity: number,
     price: number,

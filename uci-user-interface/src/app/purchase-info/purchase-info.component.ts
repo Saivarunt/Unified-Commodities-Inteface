@@ -11,15 +11,15 @@ import { AlertService } from '../services/alert.service';
   styleUrls: ['./purchase-info.component.scss']
 })
 export class PurchaseInfoComponent {
-  viewAllPurchasesApi: Subscription  = new Subscription();
-  searchApi: Subscription  = new Subscription();
+  viewAllPurchasesApi: Subscription = new Subscription();
+  searchApi: Subscription = new Subscription();
   purchases: Purchases[] = [];
   totalElements: number = 0;
   pageIndex: number = 0;
   pageSize: number = 20;
   search: string = "";
 
-  constructor(private purchaseService: PurchaseService, private al: AlertService) {}
+  constructor(private purchaseService: PurchaseService, private al: AlertService) { }
 
   ngOnInit() {
     this.viewPurchases(this.pageIndex);
@@ -27,16 +27,16 @@ export class PurchaseInfoComponent {
 
   viewPurchases(page: number) {
     this.viewAllPurchasesApi = this.purchaseService.viewAllPurchases(page)
-    .subscribe({
-      next: (response) => {
-        this.purchases  = response.content;
-        this.pageSize = response.size;
-        this.totalElements = response.totalElements;
-      },
-      error: (err) => {
-        this.al.alertPrompt("Error", err.error, "error");;
-      }
-    })
+      .subscribe({
+        next: (response) => {
+          this.purchases = response.content;
+          this.pageSize = response.size;
+          this.totalElements = response.totalElements;
+        },
+        error: (err) => {
+          this.al.alertPrompt("Error", err.error, "error");;
+        }
+      })
   }
 
   handlePageEvent(e: PageEvent) {
@@ -44,16 +44,16 @@ export class PurchaseInfoComponent {
     this.viewPurchases(this.pageIndex);
   }
 
-  trigger = this.debounce(() => {     
+  trigger = this.debounce(() => {
     this.searchApi = this.purchaseService.searchPurchase(this.search, this.pageIndex > 0 ? 0 : this.pageIndex)
       .subscribe({
         next: (response) => {
-          if(response !== null) {
-            this.purchases  = response.content;
+          if (response !== null) {
+            this.purchases = response.content;
             this.pageSize = response.size;
             this.totalElements = response.totalElements;
           }
-          else{
+          else {
             this.purchases = [];
           }
         },
@@ -65,17 +65,17 @@ export class PurchaseInfoComponent {
 
 
   debounce(cb: Function, delay: number) {
-    let interval = setTimeout(() => {}, 0);
-    return (...args: any) =>{
-        clearTimeout(interval);
-        interval = setTimeout(() => {
-            cb(...args)
-        }, delay)
+    let interval = setTimeout(() => { }, 0);
+    return (...args: any) => {
+      clearTimeout(interval);
+      interval = setTimeout(() => {
+        cb(...args)
+      }, delay)
     }
   }
 
   searchProduct() {
-    if(this.search[this.search.length - 1] !== " "){
+    if (this.search[this.search.length - 1] !== " ") {
       this.trigger();
     }
   }

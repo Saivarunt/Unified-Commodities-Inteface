@@ -8,8 +8,8 @@ export class SupplierAccessDirective {
 
   constructor(private el: ElementRef, private authService: AuthService) { }
 
-  ngOnInit () {
-    this.el.nativeElement.style.display = !this.authService.hasRequiredRole(["SUPPLIER"])? "none": "block";
+  ngOnInit() {
+    this.el.nativeElement.style.display = !this.authService.hasRequiredRole(["SUPPLIER"]) ? "none" : "block";
   }
 
 }

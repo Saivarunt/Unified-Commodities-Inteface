@@ -1,27 +1,27 @@
 nav {
-    display: flex;
-    justify-content: space-between;
-    background-color: #252B48;
-    overflow: hidden;
-  }
-  
-  nav div a {
-    float: left;
-    color: #EEF5FF;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  
-  nav div a:hover {
-    background-color: #eeeeee;
-    color: black;
-  }
+  display: flex;
+  justify-content: space-between;
+  background-color: #252b48;
+  overflow: hidden;
+}
 
-  nav a [style*="hidden"]{
-    display: none;
-  }
-  
+nav div a {
+  float: left;
+  color: #eef5ff;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+nav div a:hover {
+  background-color: #eeeeee;
+  color: black;
+}
+
+nav a [style*="hidden"] {
+  display: none;
+}
+
 nav div {
   display: flex;
   justify-content: center;

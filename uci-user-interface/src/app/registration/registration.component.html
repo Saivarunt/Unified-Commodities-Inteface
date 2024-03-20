@@ -1,53 +1,135 @@
 <div class="whole-container">
-    <div class="register-container">
-        <div class="info-container">
-            <img src="assets/uci.png">
-            <p class="uci-header">Unified Commodities Interface</p> <br>
-    
-            <p class="register-header">Registration</p> <br>
-        </div>
-        
-        <div class="type-button">
-            <button mat-raised-button (click)= "registrationTypeSet('Supplier')" [ngClass]="registrationType === 'Supplier' || registrationType === ''? 'show': 'noshow'" >Supplier Registration </button>
-            <button mat-raised-button (click)= "registrationTypeSet('Consumer')" [ngClass]="registrationType === 'Consumer' || registrationType === ''? 'show': 'noshow'" >Consumer Registration</button>
-            <button mat-raised-button (click)= "registrationTypeSet('Transporter')" [ngClass]="registrationType === 'Transporter' || registrationType === ''? 'show': 'noshow'" >Transporter Registration</button>
-        </div>
-        <br>
-    
-        
-        <form [formGroup]="formResponse" (ngSubmit)="regitserResponseFunction()">
-            <div class="form-container">
-                <p>* <span><a routerLink="/login">Login</a> </span> if you already have an account.</p>
-        
-                <label>Enter your Username</label><br>
-                <input type="text" id="name" name="username" placeholder="Enter username" formControlName="username" required> <br>
-        
-                <label>Enter your Email Address</label> <br>
-                <input type="text" id="mail" name="mail" placeholder="Enter email address" formControlName="mail" required> <br>
-                
-            </div>
-                <div *ngIf="!otpValid" class="form-container">
-                    
-                    <div *ngIf="enableOtp">
-                        <label>Enter your Otp</label> <br>
-                        <input type="number" id="otp" name="otp" placeholder="Enter OTP" formControlName="otp" required> <br>
-                        
-                    </div>
-                </div>
-                
-                <div *ngIf="otpValid" class="form-container">
-                    <label>Enter your password</label> <br>
-                    <input type="password" id="pass" name="password" placeholder="Enter password" formControlName="password"  required > <br>
-                    <label>Confirm password</label> <br>
-                    <input type="password" id="confirmpass" name="confirmpassword" placeholder="Enter password" formControlName="confirmpassword"required> <br>
-                    <button mat-raised-button type="submit">Register</button>
-                </div>
-                
-            </form>
+  <div class="register-container">
+    <div class="info-container">
+      <img src="assets/uci.png" />
+      <p class="uci-header">Unified Commodities Interface</p>
+      <br />
 
-        <div class="otp-button">
-            <button mat-raised-button *ngIf="!enableOtp && !otpValid" (click)="generateOtp()">Generate Otp</button>
-            <button mat-raised-button *ngIf="enableOtp && !otpValid" (click)="verifyOtp()">Verify Otp</button>
-        </div>
+      <p class="register-header">Registration</p>
+      <br />
     </div>
+
+    <div class="type-button">
+      <button
+        mat-raised-button
+        (click)="registrationTypeSet('Supplier')"
+        [ngClass]="
+          registrationType === 'Supplier' || registrationType === ''
+            ? 'show'
+            : 'noshow'
+        "
+      >
+        Supplier Registration
+      </button>
+      <button
+        mat-raised-button
+        (click)="registrationTypeSet('Consumer')"
+        [ngClass]="
+          registrationType === 'Consumer' || registrationType === ''
+            ? 'show'
+            : 'noshow'
+        "
+      >
+        Consumer Registration
+      </button>
+      <button
+        mat-raised-button
+        (click)="registrationTypeSet('Transporter')"
+        [ngClass]="
+          registrationType === 'Transporter' || registrationType === ''
+            ? 'show'
+            : 'noshow'
+        "
+      >
+        Transporter Registration
+      </button>
+    </div>
+    <br />
+
+    <form [formGroup]="formResponse" (ngSubmit)="regitserResponseFunction()">
+      <div class="form-container">
+        <p>
+          * <span><a routerLink="/login">Login</a> </span> if you already have
+          an account.
+        </p>
+
+        <label>Enter your Username</label><br />
+        <input
+          type="text"
+          id="name"
+          name="username"
+          placeholder="Enter username"
+          formControlName="username"
+          required
+        />
+        <br />
+
+        <label>Enter your Email Address</label> <br />
+        <input
+          type="text"
+          id="mail"
+          name="mail"
+          placeholder="Enter email address"
+          formControlName="mail"
+          required
+        />
+        <br />
+      </div>
+      <div *ngIf="!otpValid" class="form-container">
+        <div *ngIf="enableOtp">
+          <label>Enter your Otp</label> <br />
+          <input
+            type="number"
+            id="otp"
+            name="otp"
+            placeholder="Enter OTP"
+            formControlName="otp"
+            required
+          />
+          <br />
+        </div>
+      </div>
+
+      <div *ngIf="otpValid" class="form-container">
+        <label>Enter your password</label> <br />
+        <input
+          type="password"
+          id="pass"
+          name="password"
+          placeholder="Enter password"
+          formControlName="password"
+          required
+        />
+        <br />
+        <label>Confirm password</label> <br />
+        <input
+          type="password"
+          id="confirmpass"
+          name="confirmpassword"
+          placeholder="Enter password"
+          formControlName="confirmpassword"
+          required
+        />
+        <br />
+        <button mat-raised-button type="submit">Register</button>
+      </div>
+    </form>
+
+    <div class="otp-button">
+      <button
+        mat-raised-button
+        *ngIf="!enableOtp && !otpValid"
+        (click)="generateOtp()"
+      >
+        Generate Otp
+      </button>
+      <button
+        mat-raised-button
+        *ngIf="enableOtp && !otpValid"
+        (click)="verifyOtp()"
+      >
+        Verify Otp
+      </button>
+    </div>
+  </div>
 </div>

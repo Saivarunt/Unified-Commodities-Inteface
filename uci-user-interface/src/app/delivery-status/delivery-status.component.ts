@@ -15,10 +15,10 @@ import { AlertService } from '../services/alert.service';
 export class DeliveryStatusComponent {
   updateSupplierStatusApi: Subscription = new Subscription();
   updateConsumerStatusApi: Subscription = new Subscription();
-  interval = setTimeout(() => {}, 0);
+  interval = setTimeout(() => { }, 0);
 
- constructor(public dialogRef: MatDialogRef<DeliveryStatusComponent>,
-  @Inject(MAT_DIALOG_DATA) public data: {status: string, lifecycle: LifecycleResponse}, private productService: ProductService, public dialog: MatDialog, private al: AlertService) {}
+  constructor(public dialogRef: MatDialogRef<DeliveryStatusComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { status: string, lifecycle: LifecycleResponse }, private productService: ProductService, public dialog: MatDialog, private al: AlertService) { }
 
 
   openRatingDialog(enterAnimationDuration: string, exitAnimationDuration: string) {
@@ -27,51 +27,51 @@ export class DeliveryStatusComponent {
       height: '30vh',
       enterAnimationDuration,
       exitAnimationDuration,
-      data: {lifecycle: this.data.lifecycle}
+      data: { lifecycle: this.data.lifecycle }
     });
   }
-  
+
   rate() {
-    this.openRatingDialog('30ms','30ms');
+    this.openRatingDialog('30ms', '30ms');
   }
 
 
   updateStatus() {
     Swal.showLoading();
 
-    if(this.data.status === 'Supplier') {
+    if (this.data.status === 'Supplier') {
 
-      this.updateSupplierStatusApi = this.productService.updateSupplierStatus(this.data.lifecycle._id) 
-      .subscribe({
-        next: (response) => {
-          Swal.close();
-          if(this.data.lifecycle.supplier !== this.data.lifecycle.transporter){
-            this.rate();
-          }
-          else {
-            clearTimeout(this.interval);
-            this.interval = setTimeout(() => this.dialogRef.close(), 1800);   
-          }
+      this.updateSupplierStatusApi = this.productService.updateSupplierStatus(this.data.lifecycle._id)
+        .subscribe({
+          next: (response) => {
+            Swal.close();
+            if (this.data.lifecycle.supplier !== this.data.lifecycle.transporter) {
+              this.rate();
+            }
+            else {
+              clearTimeout(this.interval);
+              this.interval = setTimeout(() => this.dialogRef.close(), 1800);
+            }
 
-          this.al.alertPrompt("UPDATED SUPPLIER STATUS", "Supplier status was successfully updated", "success");
-        },
-        error: (err) => {
-          this.al.alertPrompt("Error", err.error, "error");;
-        }
-      });
+            this.al.alertPrompt("UPDATED SUPPLIER STATUS", "Supplier status was successfully updated", "success");
+          },
+          error: (err) => {
+            this.al.alertPrompt("Error", err.error, "error");;
+          }
+        });
     }
-    else if(this.data.status === 'Consumer') {
-      this.updateConsumerStatusApi = this.productService.updateConsumerStatus(this.data.lifecycle._id) 
-      .subscribe({
-        next: (response) => {
-          Swal.close();
-          this.rate();
-          this.al.alertPrompt("UPDATED CONSUMER STATUS", "Supplier status was successfully updated", "success");
-        },
-        error: (err) => {
-          this.al.alertPrompt("Error", err.error, "error");;
-        }
-      });
+    else if (this.data.status === 'Consumer') {
+      this.updateConsumerStatusApi = this.productService.updateConsumerStatus(this.data.lifecycle._id)
+        .subscribe({
+          next: (response) => {
+            Swal.close();
+            this.rate();
+            this.al.alertPrompt("UPDATED CONSUMER STATUS", "Supplier status was successfully updated", "success");
+          },
+          error: (err) => {
+            this.al.alertPrompt("Error", err.error, "error");;
+          }
+        });
     }
 
   }

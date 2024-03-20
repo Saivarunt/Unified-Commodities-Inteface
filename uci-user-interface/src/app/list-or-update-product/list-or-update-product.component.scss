@@ -1,52 +1,54 @@
-.list-product, .update-product{
-    background-color: #dae9ff;
-    padding-top: 20px;
-    padding-bottom: 0px;
+.list-product,
+.update-product {
+  background-color: #dae9ff;
+  padding-top: 20px;
+  padding-bottom: 0px;
 }
 
-.list-product, .update-product{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+.list-product,
+.update-product {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 .image-upload {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
-.form-container, .button-div{
-    display: flex;
-    justify-content: center;
+.form-container,
+.button-div {
+  display: flex;
+  justify-content: center;
 }
 .form-container input {
-    margin: 10px;
+  margin: 10px;
 }
 .button-div button {
-    margin: 10px;
-    cursor: pointer;
+  margin: 10px;
+  cursor: pointer;
 }
 
-.delete-container{
-    display: flex;
-    flex-direction: column;
-    background-color: #dae9ff;
-    padding: 45px;
-    font-size: 16px;
+.delete-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #dae9ff;
+  padding: 45px;
+  font-size: 16px;
 }
 
-.delete-container div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    float: left;
+.delete-container div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  float: left;
 }
 
-.delete-container div button{
-    margin-right: 10px;
-    cursor: pointer;
-    margin-bottom: 30px;
+.delete-container div button {
+  margin-right: 10px;
+  cursor: pointer;
+  margin-bottom: 30px;
 }
-
